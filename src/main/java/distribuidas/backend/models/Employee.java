@@ -5,8 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Entity(name = "empleados")
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "empleados")
+@Getter @Setter @NoArgsConstructor
 public class Employee {
     /*
         create table empleados(
@@ -20,7 +27,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "identificador", nullable = false)
-    private User user;
+    private int employeeId;
     @Column(name = "cargo", length = 100)
     private String position;
     @Column(name = "sector", nullable = false)

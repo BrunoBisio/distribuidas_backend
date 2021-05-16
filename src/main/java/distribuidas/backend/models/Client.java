@@ -1,12 +1,16 @@
 package distribuidas.backend.models;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import distribuidas.backend.enums.Admited;
 import distribuidas.backend.enums.Category;
@@ -14,9 +18,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "clientes")
+@Entity
+@Table(name = "clientes")
 @Getter @Setter @NoArgsConstructor
-public class Client {
+public class Client implements Serializable {
     /*
         create table clientes(
             identificador int not null,
@@ -32,8 +37,11 @@ public class Client {
         go
     */
     @Id
+    @Column(name = "identificador")
+    private Long id;
     @OneToOne
-    @JoinColumn(name = "identificador", nullable=false)
+    @MapsId
+    @JoinColumn(name = "identificador")
     private User user;
     @OneToOne
     @JoinColumn(name = "numeroPais")

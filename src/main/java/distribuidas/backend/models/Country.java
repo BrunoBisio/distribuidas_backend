@@ -5,8 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Entity(name = "paises")
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "paises")
+@Getter @Setter @NoArgsConstructor
 public class Country {
     /*
         create table paises(
@@ -23,7 +30,7 @@ public class Country {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "numero", nullable = false)
-    private int id;
+    private int countryId;
     @Column(name = "nombre", length = 250, nullable = false)
     private String name;
     @Column(name = "nombreCorto", length = 250, nullable = false)

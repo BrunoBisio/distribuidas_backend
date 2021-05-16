@@ -1,5 +1,7 @@
 package distribuidas.backend.models;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,11 +9,17 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import distribuidas.backend.enums.Status;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity(name = "personas")
-public class User {
+@Entity
+@Table(name = "personas")
+@Getter @Setter @NoArgsConstructor
+public class User implements Serializable {
     /*
         create table personas(
             identificador int not null identity,

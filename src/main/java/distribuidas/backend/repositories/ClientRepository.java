@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import distribuidas.backend.models.Client;
 
-public interface IClientRepository extends JpaRepository<Client, Integer>{
+public interface ClientRepository extends JpaRepository<Client, Integer>{
     
     Client findClientById(int id);
 }
