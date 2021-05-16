@@ -3,6 +3,8 @@ package distribuidas.backend.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import distribuidas.backend.dtos.ClientDto;
+import distribuidas.backend.mappers.ClientMapper;
 import distribuidas.backend.models.Client;
 import distribuidas.backend.repositories.ClientRepository;
 import distribuidas.backend.services.IClientService;
@@ -14,8 +16,9 @@ public class ClientService implements IClientService{
     private ClientRepository clientRepo;
 
     @Override
-    public Client getClientById(int id) {
-        return clientRepo.findClientById(id);
+    public ClientDto getClientById(int id) {
+        Client client = clientRepo.findClientById(id);
+        return ClientMapper.toDto(client);
     }
     
 }

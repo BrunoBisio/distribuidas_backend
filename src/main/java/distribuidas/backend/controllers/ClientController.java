@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import distribuidas.backend.models.Client;
+import distribuidas.backend.dtos.ClientDto;
 import distribuidas.backend.services.IClientService;
 
 @RestController
@@ -18,7 +18,7 @@ public class ClientController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> index(@PathVariable int id) {
-        Client client = service.getClientById(id);
+        ClientDto client = service.getClientById(id);
         return ResponseEntity.ok(client);
     }
 }

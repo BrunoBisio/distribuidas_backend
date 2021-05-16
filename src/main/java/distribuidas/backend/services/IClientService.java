@@ -1,7 +1,7 @@
 package distribuidas.backend.services;
 
-import distribuidas.backend.models.Client;
+import distribuidas.backend.dtos.ClientDto;
 
 public interface IClientService {
-    public Client getClientById(int id);
+    public ClientDto getClientById(int id);
 }
