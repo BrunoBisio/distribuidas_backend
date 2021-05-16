@@ -14,10 +14,7 @@ public class ClientDto {
     private Status status;
     private Long picture;
     // client
-    private String country;
-    private Boolean admitted;
     private Category category;
-    private String authorizedBy;
 
     // private Boolean financialBackground;
     // private Boolean legalBackground;
