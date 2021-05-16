@@ -1,5 +1,7 @@
 package distribuidas.backend.enums;
 
 public enum Status {
-    ACTIVE, INACTIVE
+    // 'activo', 'incativo'
+    // ACTIVE, INACTIVE
+    activo, inactivo
 }

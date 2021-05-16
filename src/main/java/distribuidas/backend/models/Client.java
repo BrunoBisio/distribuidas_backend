@@ -38,7 +38,7 @@ public class Client implements Serializable {
     */
     @Id
     @Column(name = "identificador")
-    private Long id;
+    private int id;
     @OneToOne
     @MapsId
     @JoinColumn(name = "identificador")
