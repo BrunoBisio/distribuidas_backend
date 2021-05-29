@@ -32,7 +32,7 @@ public class AuctionServiceImpl implements AuctionService {
     @Override
     public AuctionList getAuctionsForUser(int id) {
         ClientDto client = clientService.getClientById(id);
-        List<Category> categories = Arrays.stream(Category.values()).filter(category -> category.ordinal() < client.getCategory().ordinal() +1).collect(Collectors.toList());
+        List<Category> categories = Arrays.stream(Category.values()).filter(category -> category.ordinal() <= client.getCategory().ordinal() +1).collect(Collectors.toList());
         List<AuctionDto> auctionDto = auctionRepository.findAuctionByStateAndCategoryIn(State.OPEN,categories)
                 .stream().map(AuctionMapper::toDto).collect(Collectors.toList());
         return new AuctionList(auctionDto);
