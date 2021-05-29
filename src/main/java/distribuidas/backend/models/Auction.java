@@ -34,6 +34,7 @@ public class Auction {
      )
      */
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "identificador", nullable = false)
     private int id;
     private Date openDate;
@@ -48,4 +49,9 @@ public class Auction {
     cascade = CascadeType.ALL)
     @JoinColumn(name = "verificador", nullable=false)
     private List<Product> products;
+
+    public Assistant getAuctioner() {
+        return null;
+    }
 }
+
