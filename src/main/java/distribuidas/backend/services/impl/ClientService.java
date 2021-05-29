@@ -17,7 +17,7 @@ public class ClientService implements IClientService{
 
     @Override
     public ClientDto getClientById(int id) {
-        Client client = clientRepo.findClientById(id);
+        Client client = clientRepo.findById(id).get();
         return ClientMapper.toDto(client);
     }
     
