@@ -15,8 +15,4 @@ public class ClientDto {
     private Long picture;
     // client
     private Category category;
-
-    // private Boolean financialBackground;
-    // private Boolean legalBackground;
-    // private Boolean riskBackground;
 }
