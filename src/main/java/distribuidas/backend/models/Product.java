@@ -1,16 +1,13 @@
 package distribuidas.backend.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import distribuidas.backend.enums.Currency;
 import distribuidas.backend.enums.State;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "productos")
@@ -26,4 +23,6 @@ public class Product {
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", length = 15)
     private State state;
+    @Transient
+    private List<Photo> photos;
 }

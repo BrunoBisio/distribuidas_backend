@@ -3,7 +3,6 @@ package distribuidas.backend.mappers;
 import java.util.stream.Collectors;
 
 import distribuidas.backend.dtos.AuctionDto;
-import distribuidas.backend.dtos.BasicAuctionDto;
 import distribuidas.backend.models.Auction;
 
 public class AuctionMapper {
@@ -20,13 +19,5 @@ public class AuctionMapper {
         return dto;
     }
 
-    public static BasicAuctionDto toBasicDto(Auction auction) {
-        BasicAuctionDto dto = new BasicAuctionDto();
-        dto.setName(auction.getName());
-        dto.setQuantity(auction.getProducts().size());
-        dto.setStartDate(auction.getOpenDate());
-        dto.setPhoto(auction.getPhoto());
-        return dto;
-    }
 }
 

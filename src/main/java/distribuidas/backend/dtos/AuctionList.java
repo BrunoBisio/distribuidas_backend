@@ -9,5 +9,5 @@ import lombok.Setter;
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class AuctionList {
-    private List<BasicAuctionDto> auctionDtos;
+    private List<AuctionDto> auctionDtos;
 }

@@ -17,4 +17,6 @@ public class AuctionDto {
     private Date startDate;
     private List<ProductDto> productDtos;
     private String photo;
+    private String name;
+    private int quantity;
 }

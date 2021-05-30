@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import distribuidas.backend.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import distribuidas.backend.dtos.AuctionDto;
 import distribuidas.backend.dtos.AuctionList;
-import distribuidas.backend.dtos.BasicAuctionDto;
 import distribuidas.backend.dtos.ClientDto;
 import distribuidas.backend.enums.Category;
 import distribuidas.backend.enums.State;
@@ -30,8 +30,8 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public AuctionList getAuctions() {
-        List<BasicAuctionDto> auctionDto = auctionRepository.findAuctionByState(State.OPEN)
-                .stream().map(AuctionMapper::toBasicDto).collect(Collectors.toList());
+        List<AuctionDto> auctionDto = auctionRepository.findAuctionByState(State.OPEN)
+                .stream().map(AuctionMapper::toDto).collect(Collectors.toList());
         return new AuctionList(auctionDto);
     }
 
@@ -39,8 +39,8 @@ public class AuctionServiceImpl implements AuctionService {
     public AuctionList getAuctionsForUser(int id) {
         ClientDto client = clientService.getClientById(id);
         List<Category> categories = Arrays.stream(Category.values()).filter(category -> category.ordinal() <= client.getCategory().ordinal() +1).collect(Collectors.toList());
-        List<BasicAuctionDto> auctionDto = auctionRepository.findAuctionByStateAndCategoryIn(State.OPEN,categories)
-                .stream().map(AuctionMapper::toBasicDto).collect(Collectors.toList());
+        List<AuctionDto> auctionDto = auctionRepository.findAuctionByStateAndCategoryIn(State.OPEN,categories)
+                .stream().map(AuctionMapper::toDto).collect(Collectors.toList());
         return new AuctionList(auctionDto);
     }
 
@@ -48,6 +48,7 @@ public class AuctionServiceImpl implements AuctionService {
     public AuctionDto getAuctionById(int id) {
         // agregar fotos
         Auction auction = auctionRepository.findAuctionByStateAndId(State.OPEN,id);
+        auction.getProducts().stream().forEach(prod -> prod.setPhotos(photoRepository.findByProductId(prod.getId())));
         return AuctionMapper.toDto(auction);
     }
 }

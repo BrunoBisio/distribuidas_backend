@@ -1,7 +1,10 @@
 package distribuidas.backend.mappers;
 
 import distribuidas.backend.dtos.ProductDto;
+import distribuidas.backend.models.Photo;
 import distribuidas.backend.models.Product;
+
+import java.util.stream.Collectors;
 
 public class ProductMapper {
 
@@ -12,6 +15,7 @@ public class ProductMapper {
         dto.setStatus(product.getState());
         dto.setName(product.getName());
         dto.setDescription(product.getDescription());
+        dto.setPhotos(product.getPhotos().stream().map(Photo::getUri).collect(Collectors.toList()));
         return dto;
     }
 }
