@@ -1,13 +1,25 @@
 package distribuidas.backend.models;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import distribuidas.backend.enums.Category;
 import distribuidas.backend.enums.State;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
 @Entity
 @Table(name = "subastas")
 @Getter
@@ -49,9 +61,6 @@ public class Auction {
     cascade = CascadeType.ALL)
     @JoinColumn(name = "verificador", nullable=false)
     private List<Product> products;
-
-    public Assistant getAuctioner() {
-        return null;
-    }
+    private String photo;
+    private String name;
 }
-

@@ -1,17 +1,20 @@
 package distribuidas.backend.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import distribuidas.backend.enums.Currency;
 import distribuidas.backend.enums.State;
-import distribuidas.backend.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-
 @Entity
 @Table(name = "productos")
-@Getter
-@Setter
+@Getter @Setter
 public class Product {
 
     @Id
