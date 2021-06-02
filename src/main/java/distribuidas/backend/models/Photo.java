@@ -1,7 +1,6 @@
 package distribuidas.backend.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +19,12 @@ public class Photo {
         )
         go
     */
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "identificador", nullable = false)
     private int id;
+    @OneToOne
+    @JoinColumn(name = "producto")
     private Product product;
     private String uri;
 }
