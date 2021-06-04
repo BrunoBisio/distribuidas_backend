@@ -2,7 +2,7 @@ package distribuidas.backend.controllers;
 
 import distribuidas.backend.dtos.AuctionDto;
 import distribuidas.backend.dtos.AuctionList;
-import distribuidas.backend.services.AuctionService;
+import distribuidas.backend.services.IAuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auction")
 public class AuctionController {
     @Autowired
-    private AuctionService auctionService;
+    private IAuctionService auctionService;
     @GetMapping
     public AuctionList getAuctions() {
         return auctionService.getAuctions();
@@ -22,6 +22,14 @@ public class AuctionController {
     @GetMapping("/user")
     public AuctionList getAuctionsForUser() {
         return auctionService.getAuctionsForUser(1);
+    }
+
+    @GetMapping("/soon")
+    public AuctionList getFutureAuctions() { return auctionService.getFututreAuctions(); }
+
+    @GetMapping("/user/soon")
+    public AuctionList getFutureAuctionsForUser() {
+        return auctionService.getFututreAuctionsForUser(1);
     }
 
     @GetMapping("/{id}")

@@ -29,6 +29,9 @@ public class BidService implements IBidService {
         int clientId = 1; // TODO: obtener el clientId mediante el authToken
         Assistant assistant = assistantRepository.findByClientIdAndAuctionId(clientId, auctionId);
         CatalogItem item = catalogItemRepository.findById(productId).get();
+        // Bid latestBid = bidRepository.findLatestByItemId(item.getCatalogItemId());
+        // if ()assistant.getClient().getCategory()
+        // if (latestBid == null)
         Bid bid = new Bid();
         bid.setAmmount(dto.getAmmount());
         bid.setItem(item);

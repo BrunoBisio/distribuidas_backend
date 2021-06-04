@@ -1,5 +1,6 @@
 package distribuidas.backend.dtos;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import distribuidas.backend.enums.Currency;
@@ -15,4 +16,5 @@ public class ProductDto {
     private Currency currency;
     private State status;
     private List<String> photos;
+    private BigDecimal initialPrice;
 }
