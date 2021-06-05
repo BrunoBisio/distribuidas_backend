@@ -40,7 +40,7 @@ public class PaymentMethod {
     private String cvv;
     @Column(name = "fechaVencimiento", length = 4)
     private String expirationDate;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente")
     private Client client;
 }

@@ -31,7 +31,7 @@ public class CatalogItem {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "identificador", nullable = false)
     private int id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "catalogo", nullable = false)
     private Catalog catalog;
     @OneToOne

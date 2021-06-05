@@ -46,10 +46,10 @@ public class Product {
     private String catalogDescription;
     @Column(name = "descripcionCompleta", columnDefinition = "varchar(300) not null")
     private String fullDescription;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "revisor", nullable = false)
     private Employee employee;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "duenio", nullable = false)
     private Owner owner;
     @Column(name = "nombreDeProducto", nullable = false)

@@ -28,7 +28,7 @@ public class Section {
     private String name;
     @Column(name = "codigoSector", length = 10)
     private String code;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "responsableSector")
     private Employee supervisor;
 }

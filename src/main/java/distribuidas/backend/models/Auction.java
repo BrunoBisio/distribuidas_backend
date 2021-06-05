@@ -46,7 +46,7 @@ public class Auction {
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", columnDefinition = "VARCHAR(10) CHECK (estado in ('abierta','carrada')")
     private State state;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "subastador")
     private Auctioner auctioner;
     // --direccion de donde se desarrolla el evento.
