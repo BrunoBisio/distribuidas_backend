@@ -47,7 +47,7 @@ public class Auction {
     @Column(name = "estado", columnDefinition = "VARCHAR(10) CHECK (estado in ('abierta','carrada')")
     private State state;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "subastador")
+    @JoinColumn(name = "subastador", referencedColumnName="identificador")
     private Auctioner auctioner;
     // --direccion de donde se desarrolla el evento.
     @Column(name = "ubicacion", columnDefinition = "VARCHAR(350) null")
