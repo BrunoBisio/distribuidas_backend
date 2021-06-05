@@ -28,9 +28,9 @@ public class Catalog {
     private int id;
     @Column(name = "descripcion", columnDefinition = "varchar(250) not null")
     private String description;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "subasta")
-    private List<Auction> auction;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "subasta", referencedColumnName="identificador")
+    private Auction auction;
     @OneToOne
     @MapsId
     @JoinColumn(name = "responsable")

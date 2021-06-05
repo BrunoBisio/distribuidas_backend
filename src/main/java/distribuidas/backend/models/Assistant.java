@@ -31,7 +31,7 @@ public class Assistant {
     private int bidderNumber;
     @OneToOne
     @MapsId
-    @JoinColumn(name = "cliente", nullable = false)
+    @JoinColumn(name = "cliente", referencedColumnName = "", nullable = false)
     private Client client;
     @OneToOne
     @MapsId
