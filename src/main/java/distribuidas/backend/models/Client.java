@@ -44,15 +44,17 @@ public class Client implements Serializable {
     @JoinColumn(name = "identificador")
     private User user;
     @OneToOne
+    @MapsId
     @JoinColumn(name = "numeroPais")
     private Country country;
     @Enumerated(EnumType.STRING)
-    @Column(name = "admitido", length = 2)
+    @Column(name = "admitido", columnDefinition = "varchar(2) check(admitido in ('si','no'))")
     private Admited admited;
     @Enumerated(EnumType.STRING)
-    @Column(name = "categoria")
+    @Column(name = "categoria", columnDefinition = "varchar(10) check (categoria in ('comun', 'especial', 'plata', 'oro', 'platino'))")
     private Category category;
     @OneToOne
+    @MapsId
     @JoinColumn(name = "verificador", nullable=false)
     private Employee authorizedBy;
 }
