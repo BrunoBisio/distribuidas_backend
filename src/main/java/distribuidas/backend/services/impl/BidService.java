@@ -31,7 +31,7 @@ public class BidService implements IBidService {
         int clientId = 1; // TODO: obtener el clientId mediante el authToken
         Assistant assistant = assistantRepository.findByClientIdAndAuctionId(clientId, auctionId);
         CatalogItem item = catalogItemRepository.findById(productId).get();
-        Bid latestBid = bidRepository.findByItemIdOrderByBidIdDesc(item.getId()).stream().findFirst().get();
+        Bid latestBid = bidRepository.findFirstByItemIdOrderByIdDesc(item.getId());
         BigDecimal currentPrice = latestBid != null ? latestBid.getAmmount() : item.getBasePrice();
         if (isBidValid(currentPrice, dto.getAmmount(), assistant.getAuction().getCategory())) {
             Bid bid = BidMapper.fromDto(dto, item, assistant, Admited.si);
