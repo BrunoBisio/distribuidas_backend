@@ -35,8 +35,7 @@ public class AuctionServiceImpl implements IAuctionService {
     @Override
     public AuctionList getAuctions() {
         List<AuctionDto> auctionDto = auctionRepository.findAuctionByState(State.OPEN)
-                .stream().filter(a -> a.getOpenDate().before(new Date()) || a.getOpenDate().equals(new Date()))
-                .map(AuctionMapper::toDto).collect(Collectors.toList());
+                .stream().map(AuctionMapper::toDto).collect(Collectors.toList());
         return new AuctionList(auctionDto);
     }
 
@@ -45,7 +44,7 @@ public class AuctionServiceImpl implements IAuctionService {
         ClientDto client = clientService.getClientById(id);
         List<Category> categories = Arrays.stream(Category.values()).filter(category -> category.ordinal() <= client.getCategory().ordinal() +1).collect(Collectors.toList());
         List<AuctionDto> auctionDto = auctionRepository.findAuctionByStateAndCategoryIn(State.OPEN,categories)
-                .stream().filter(a -> a.getOpenDate().before(new Date()) || a.getOpenDate().equals(new Date())).map(AuctionMapper::toDto).collect(Collectors.toList());
+                .stream().map(AuctionMapper::toDto).collect(Collectors.toList());
         return new AuctionList(auctionDto);
     }
 
@@ -58,7 +57,7 @@ public class AuctionServiceImpl implements IAuctionService {
 
     @Override
     public AuctionList getFututreAuctions() {
-        List<AuctionDto> auctionDto = auctionRepository.findAuctionByState(State.OPEN)
+        List<AuctionDto> auctionDto = auctionRepository.findAuctionByState(State.CLOSED)
                 .stream().filter(a -> a.getOpenDate().after(new Date()))
                 .map(AuctionMapper::toDto).collect(Collectors.toList());
         return new AuctionList(auctionDto);
@@ -68,7 +67,7 @@ public class AuctionServiceImpl implements IAuctionService {
     public AuctionList getFututreAuctionsForUser(int id) {
         ClientDto client = clientService.getClientById(id);
         List<Category> categories = Arrays.stream(Category.values()).filter(category -> category.ordinal() <= client.getCategory().ordinal() +1).collect(Collectors.toList());
-        List<AuctionDto> auctionDto = auctionRepository.findAuctionByStateAndCategoryIn(State.OPEN,categories)
+        List<AuctionDto> auctionDto = auctionRepository.findAuctionByStateAndCategoryIn(State.CLOSED,categories)
                 .stream().filter(a -> a.getOpenDate().after(new Date())).map(AuctionMapper::toDto).collect(Collectors.toList());
         return new AuctionList(auctionDto);
     }
