@@ -10,11 +10,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "pujas")
+@Table(name = "pujos")
 @Getter @Setter
 public class Bid {
     /*
-        create table pujas(
+        create table pujos(
             identificador int not null identity,
             asistente int not null,
             item int not null,
