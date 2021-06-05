@@ -49,5 +49,5 @@ public class User implements Serializable {
     @Column(name = "estado", columnDefinition = "varchar(15) check (estado in ('activo', 'incativo'))")
     private Status status;
     @Column(name = "foto")
-    private Byte[] picture;
+    private String picture;
 }

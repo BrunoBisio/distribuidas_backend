@@ -14,7 +14,7 @@ public class ClientDto {
     private String identityNumber;
     private String address;
     private Status status;
-    private Long picture;
+    private String picture;
     // client
     private Category category;
 }

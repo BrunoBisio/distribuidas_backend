@@ -30,5 +30,5 @@ public class Photo {
     @JoinColumn(name = "producto")
     private Product product;
     @Column(name = "foto")
-    private Byte[] photo;
+    private String photo;
 }
