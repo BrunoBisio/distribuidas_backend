@@ -19,7 +19,6 @@ public class BidController {
     @Autowired
     private IBidService service;
 
-    @ResponseStatus
     @PostMapping("/auction/{auctionId}/product/{productId}/bid")
     public BidDto index(@PathVariable int auctionId, @PathVariable int productId, @RequestBody BidDto dto) {
         return service.createBid(auctionId, productId, dto);
