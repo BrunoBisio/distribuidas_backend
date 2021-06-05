@@ -64,8 +64,11 @@ public class Auction {
     @Enumerated(EnumType.STRING)
     @Column(name = "categoria", columnDefinition = "varchar(10) CHECK (categoria in ('comun', 'especial', 'plata', 'oro', 'platino')")
     private Category category;
+    @Column(name = "nombreDeSubasta", nullable = false)
     private String name;
+    @Column(name = "descripcionDeSubasta", nullable = false)
     private String description;
+    @Column(name = "fotoDeSubasta", nullable = false)
     private String photo;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "verificador", nullable=false)

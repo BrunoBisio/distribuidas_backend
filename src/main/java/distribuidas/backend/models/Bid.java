@@ -42,5 +42,6 @@ public class Bid {
     private BigDecimal ammount;
     @Column(name = "ganador", columnDefinition = "varchar(2) check (ganador in ('si','no')) default 'no'")
     private Admited winner;
+    @Column(name = "fechaDePujo", nullable = false)
     private Date created;
 }

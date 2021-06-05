@@ -52,9 +52,11 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "duenio", nullable = false)
     private Owner owner;
-
+    @Column(name = "nombreDeProducto", nullable = false)
     private String name;
+    @Column(name = "descripcionDeProducto", nullable = false)
     private String description;
+    @Column(name = "moneda", nullable = false)
     private Currency currency;
     @Transient
     private List<Photo> photos;
