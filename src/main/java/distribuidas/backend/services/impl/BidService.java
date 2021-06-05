@@ -1,17 +1,22 @@
 package distribuidas.backend.services.impl;
 
+import distribuidas.backend.enums.Category;
+import distribuidas.backend.mappers.BidMapper;
+import distribuidas.backend.models.*;
+import distribuidas.backend.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import distribuidas.backend.dtos.BidDto;
 import distribuidas.backend.enums.Admited;
-import distribuidas.backend.models.Assistant;
-import distribuidas.backend.models.Bid;
-import distribuidas.backend.models.CatalogItem;
 import distribuidas.backend.repositories.AssistantRepository;
 import distribuidas.backend.repositories.BidRepository;
 import distribuidas.backend.repositories.CatalogItemRepository;
 import distribuidas.backend.services.IBidService;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class BidService implements IBidService {
@@ -24,22 +29,33 @@ public class BidService implements IBidService {
     private BidRepository bidRepository;
 
     @Override
-    public boolean createBid(int auctionId, int productId, BidDto dto) {
-        boolean saved = false;
+    public BidDto createBid(int auctionId, int productId, BidDto dto) {
+        BidDto savedBidDto = null;
         int clientId = 1; // TODO: obtener el clientId mediante el authToken
         Assistant assistant = assistantRepository.findByClientIdAndAuctionId(clientId, auctionId);
         CatalogItem item = catalogItemRepository.findById(productId).get();
-        // Bid latestBid = bidRepository.findLatestByItemId(item.getCatalogItemId());
-        // if ()assistant.getClient().getCategory()
-        // if (latestBid == null)
-        Bid bid = new Bid();
-        bid.setAmmount(dto.getAmmount());
-        bid.setItem(item);
-        bid.setAssistant(assistant);
-        bid.setWinner(Admited.si);
-        bid = bidRepository.save(bid);
-        saved = bid != null && bid.getBidId() != 0;
-        return saved;
+        Bid latestBid = bidRepository.findByItemIdOrderByBidIdDesc(item.getCatalogItemId()).stream().findFirst().get();
+        BigDecimal currentPrice = latestBid != null ? latestBid.getAmmount() : item.getBasePrice();
+        if (isBidValid(currentPrice, dto.getAmmount(), assistant.getAuction().getCategory())) {
+            Bid bid = BidMapper.fromDto(dto, item, assistant, Admited.si);
+            bid = bidRepository.save(bid);
+            savedBidDto = BidMapper.toDto(bid);
+            // update previous bid
+            latestBid.setWinner(Admited.no);
+            bidRepository.save(latestBid);
+        }
+        return savedBidDto;
     }
-    
+
+    public boolean isBidValid(BigDecimal price, BigDecimal bid, Category auctionCategory) {
+        // mayor al 1%
+        if (bid.compareTo(price.multiply(BigDecimal.valueOf(1.01))) > -1) {
+            if (auctionCategory.ordinal() == Category.oro.ordinal() || auctionCategory.ordinal() == Category.plata.ordinal()) {
+                return true;
+            }
+            // menor al 20%
+            return bid.compareTo(price.multiply(BigDecimal.valueOf(1.2))) < 1;
+        }
+        return false;
+    }
 }

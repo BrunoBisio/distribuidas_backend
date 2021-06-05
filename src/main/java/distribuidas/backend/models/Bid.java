@@ -1,6 +1,7 @@
 package distribuidas.backend.models;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,4 +45,5 @@ public class Bid {
     private CatalogItem item;
     private BigDecimal ammount;
     private Admited winner;
+    private Date created;
 }
