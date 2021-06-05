@@ -1,12 +1,12 @@
 package distribuidas.backend.dtos;
 
+import java.util.Date;
+import java.util.List;
+
 import distribuidas.backend.enums.Category;
 import distribuidas.backend.enums.State;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Date;
-import java.util.List;
 
 @Getter @Setter
 public class AuctionDto {
@@ -16,4 +16,7 @@ public class AuctionDto {
     private Category category;
     private Date startDate;
     private List<ProductDto> productDtos;
+    private String photo;
+    private String name;
+    private int quantity;
 }

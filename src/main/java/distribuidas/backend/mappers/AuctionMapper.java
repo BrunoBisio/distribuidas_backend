@@ -1,9 +1,9 @@
 package distribuidas.backend.mappers;
 
+import java.util.stream.Collectors;
+
 import distribuidas.backend.dtos.AuctionDto;
 import distribuidas.backend.models.Auction;
-
-import java.util.stream.Collectors;
 
 public class AuctionMapper {
     
@@ -15,7 +15,9 @@ public class AuctionMapper {
         dto.setStartDate(auction.getOpenDate());
         dto.setDescription(auction.getDescription());
         dto.setProductDtos(auction.getProducts().stream().map(ProductMapper::toDto).collect(Collectors.toList()));
+        dto.setPhoto(auction.getPhoto());
         return dto;
     }
+
 }
 

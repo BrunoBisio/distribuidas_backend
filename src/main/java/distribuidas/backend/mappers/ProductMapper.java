@@ -1,17 +1,12 @@
 package distribuidas.backend.mappers;
 
 import distribuidas.backend.dtos.ProductDto;
-import distribuidas.backend.enums.Currency;
-import distribuidas.backend.enums.State;
+import distribuidas.backend.models.Photo;
 import distribuidas.backend.models.Product;
 
-public class ProductMapper {
+import java.util.stream.Collectors;
 
-    private int id;
-    private String name;
-    private String description;
-    private Currency currency;
-    private State status;
+public class ProductMapper {
 
     public static ProductDto toDto(Product product){
         ProductDto  dto = new ProductDto();
@@ -20,6 +15,7 @@ public class ProductMapper {
         dto.setStatus(product.getState());
         dto.setName(product.getName());
         dto.setDescription(product.getDescription());
+        dto.setPhotos(product.getPhotos().stream().map(Photo::getUri).collect(Collectors.toList()));
         return dto;
     }
 }
