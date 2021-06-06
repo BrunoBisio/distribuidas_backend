@@ -24,7 +24,7 @@ public class Assistant {
         go
     */
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "identificador", nullable = false)
     private int assistantId;
     @Column(name = "numeroPostor", nullable = false)

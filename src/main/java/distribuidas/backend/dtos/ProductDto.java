@@ -16,7 +16,7 @@ public class ProductDto {
     private int id;
     private String name;
     private String description;
-    private Currency currency;
+    private String currency;
     private Admited status;
     private List<String> photos;
     private BigDecimal initialPrice;

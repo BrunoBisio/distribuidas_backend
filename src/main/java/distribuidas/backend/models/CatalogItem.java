@@ -28,7 +28,7 @@ public class CatalogItem {
         go
     */
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "identificador", nullable = false)
     private int id;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -23,7 +23,7 @@ public class Catalog {
         go
     * */
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "identificador", nullable = false)
     private int id;
     @Column(name = "descripcion", columnDefinition = "varchar(250) not null")

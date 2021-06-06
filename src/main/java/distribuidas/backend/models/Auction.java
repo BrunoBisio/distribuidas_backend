@@ -36,7 +36,7 @@ public class Auction {
      )
      */
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "identificador", nullable = false)
     private int id;
     @Column(name = "fecha", columnDefinition = "date check (fecha > dateAdd(dd, 10, getdate()))")
@@ -44,7 +44,7 @@ public class Auction {
     @Column(name = "hora", nullable = false)
     private Time hour;
     @Enumerated(EnumType.STRING)
-    @Column(name = "estado", columnDefinition = "varchar(10) check (estado in ('abierta','carrada'))")
+    @Column(name = "estado", columnDefinition = "varchar(10) check (estado in ('abierta','cerrada'))")
     private State state;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "subastador", referencedColumnName="identificador")
