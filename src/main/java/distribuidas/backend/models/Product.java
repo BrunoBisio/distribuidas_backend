@@ -57,7 +57,7 @@ public class Product {
     @Column(name = "descripcionDeProducto", nullable = false)
     private String description;
     @Column(name = "moneda", nullable = false)
-    private Currency currency;
+    private String currency;
     @Transient
     private List<Photo> photos;
 }
