@@ -5,6 +5,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import distribuidas.backend.models.Catalog;
+import distribuidas.backend.models.CatalogItem;
+import distribuidas.backend.models.Product;
+import distribuidas.backend.repositories.CatalogItemRepository;
+import distribuidas.backend.repositories.CatalogRepository;
 import distribuidas.backend.services.IAuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +32,10 @@ public class AuctionServiceImpl implements IAuctionService {
     private ClientService clientService;
     @Autowired
     private PhotoRepository photoRepository;
+    @Autowired
+    private CatalogRepository catalogRepository;
+    @Autowired
+    private CatalogItemRepository catalogItemRepository;
 
     @Override
     public AuctionList getAuctions() {
@@ -47,7 +56,17 @@ public class AuctionServiceImpl implements IAuctionService {
     @Override
     public AuctionDto getAuctionById(int id) {
         Auction auction = auctionRepository.findAuctionByStateAndId(State.abierta,id);
-        auction.getProducts().stream().forEach(prod -> prod.setPhotos(photoRepository.findByProductId(prod.getId())));
+        if (auction != null) {
+            Catalog catalog = catalogRepository.findByAuctionId(id);
+            if (catalog != null) {
+                List<CatalogItem> catalogItems = catalogItemRepository.findByCatalogId(catalog.getId());
+                for (CatalogItem item : catalogItems) {
+                    Product prod = item.getProduct();
+                    prod.setPhotos(photoRepository.findByProductId(prod.getId()));
+                    auction.addProduct(prod);
+                }
+            }
+        }
         return AuctionMapper.toDto(auction);
     }
 

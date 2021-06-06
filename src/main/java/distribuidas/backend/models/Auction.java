@@ -75,4 +75,8 @@ public class Auction {
     private String photo;
     @Transient
     private List<Product> products;
+
+    public void addProduct(Product prod) {
+        products.add(prod);
+    }
 }
