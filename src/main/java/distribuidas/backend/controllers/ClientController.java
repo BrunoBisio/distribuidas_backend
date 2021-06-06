@@ -17,8 +17,5 @@ public class ClientController {
     private IClientService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> index(@PathVariable int id) {
-        ClientDto client = service.getClientById(id);
-        return ResponseEntity.ok(client);
-    }
+    public ClientDto index(@PathVariable int id) { return service.getClientById(id); }
 }
