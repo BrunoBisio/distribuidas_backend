@@ -70,4 +70,6 @@ public class Auction {
     private String description;
     @Column(name = "fotoDeSubasta")
     private String photo;
+    @Transient
+    private List<Product> products;
 }
