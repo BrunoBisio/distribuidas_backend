@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table(name = "itemsCatalogo")
+@Table(name = "items_catalogo")
 @Getter @Setter
 public class CatalogItem {
     /*
