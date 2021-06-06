@@ -5,6 +5,8 @@ import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Array;
+
 @Entity
 @Table(name = "fotos")
 @Getter @Setter
@@ -26,5 +28,6 @@ public class Photo {
     @OneToOne
     @JoinColumn(name = "producto")
     private Product product;
-    private String uri;
+    @Column(name = "foto")
+    private String photo;
 }

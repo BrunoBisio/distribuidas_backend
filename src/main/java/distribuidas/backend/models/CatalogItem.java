@@ -2,10 +2,12 @@ package distribuidas.backend.models;
 
 import javax.persistence.*;
 
+import distribuidas.backend.enums.Admited;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "items_catalogo")
@@ -28,8 +30,18 @@ public class CatalogItem {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "identificador", nullable = false)
-    private int catalogItemId;
-    @Column(name = "precioBase", nullable = false)
+    private int id;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "catalogo", nullable = false)
+    private Catalog catalog;
+    @OneToOne
+    @JoinColumn(name = "producto", nullable = false)
+    private Product product;
+    @Column(name = "precioBase", columnDefinition = "decimal(18,2) not null check (precioBase > 0.01)")
     private BigDecimal basePrice;
-
+    @Column(name = "comision", columnDefinition = "decimal(18,2) not null check (comision > 0.01)")
+    private BigDecimal commission;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "subastado", columnDefinition = "varchar(2) check (subastado in ('si','no'))")
+    private Admited auctioned;
 }

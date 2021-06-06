@@ -1,16 +1,11 @@
 package distribuidas.backend.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "asistentes")
@@ -32,11 +27,12 @@ public class Assistant {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "identificador", nullable = false)
     private int assistantId;
+    @Column(name = "numeroPostor", nullable = false)
     private int bidderNumber;
     @OneToOne
-    @JoinColumn(name = "cliente")
+    @JoinColumn(name = "cliente", nullable = false)
     private Client client;
     @OneToOne
-    @JoinColumn(name = "subasta")
+    @JoinColumn(name = "subasta", nullable = false)
     private Auction auction;
 }

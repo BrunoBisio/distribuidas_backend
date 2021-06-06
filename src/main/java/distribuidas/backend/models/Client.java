@@ -2,15 +2,7 @@ package distribuidas.backend.models;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import distribuidas.backend.enums.Admited;
 import distribuidas.backend.enums.Category;
@@ -43,16 +35,16 @@ public class Client implements Serializable {
     @MapsId
     @JoinColumn(name = "identificador")
     private User user;
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "numeroPais")
     private Country country;
     @Enumerated(EnumType.STRING)
-    @Column(name = "admitido", length = 2)
+    @Column(name = "admitido", columnDefinition = "varchar(2) check(admitido in ('si','no'))")
     private Admited admited;
     @Enumerated(EnumType.STRING)
-    @Column(name = "categoria")
+    @Column(name = "categoria", columnDefinition = "varchar(10) check (categoria in ('comun', 'especial', 'plata', 'oro', 'platino')) default 'comun'")
     private Category category;
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "verificador", nullable=false)
     private Employee authorizedBy;
 }

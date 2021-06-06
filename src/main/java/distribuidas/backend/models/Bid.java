@@ -3,25 +3,18 @@ package distribuidas.backend.models;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import distribuidas.backend.enums.Admited;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "pujas")
+@Table(name = "pujos")
 @Getter @Setter
 public class Bid {
     /*
-        create table pujas(
+        create table pujos(
             identificador int not null identity,
             asistente int not null,
             item int not null,
@@ -36,14 +29,18 @@ public class Bid {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "identificador", nullable = false)
-    private int bidId;
+    private int id;
     @OneToOne
     @JoinColumn(name = "asistente")
     private Assistant assistant;
     @OneToOne
     @JoinColumn(name = "item")
     private CatalogItem item;
+    @Column(name = "importe", columnDefinition = "decimal(18,2) not null check (importe > 0.01)")
     private BigDecimal ammount;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ganador", columnDefinition = "varchar(2) check (ganador in ('si','no')) default 'no'")
     private Admited winner;
+    @Column(name = "fechaDePujo", nullable = false)
     private Date created;
 }

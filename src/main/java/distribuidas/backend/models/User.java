@@ -46,9 +46,11 @@ public class User implements Serializable {
     @Column(name = "estado", length = 15)
     private Status status;
     @Column(name = "foto")
-    private long picture;
-    @Column(name = "email")
+    private String picture;
+    @Column(name = "mail")
     private String email;
-    @Column(name = "password")
+    @Column(name = "contrasenia")
     private String password;
+    @Column(name = "telefono", length = 20)
+    private String phoneNumber;
 }

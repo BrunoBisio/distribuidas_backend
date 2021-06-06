@@ -30,7 +30,7 @@ public class Country {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "numero", nullable = false)
-    private int countryId;
+    private int id;
     @Column(name = "nombre", length = 250, nullable = false)
     private String name;
     @Column(name = "nombreCorto", length = 250, nullable = false)

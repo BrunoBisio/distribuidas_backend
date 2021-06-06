@@ -27,7 +27,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "identificador", nullable = false)
-    private int employeeId;
+    private int id;
     @Column(name = "cargo", length = 100)
     private String position;
     @Column(name = "sector", nullable = false)

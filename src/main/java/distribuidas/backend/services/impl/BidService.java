@@ -3,7 +3,6 @@ package distribuidas.backend.services.impl;
 import distribuidas.backend.enums.Category;
 import distribuidas.backend.mappers.BidMapper;
 import distribuidas.backend.models.*;
-import distribuidas.backend.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +14,6 @@ import distribuidas.backend.repositories.CatalogItemRepository;
 import distribuidas.backend.services.IBidService;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class BidService implements IBidService {
@@ -34,7 +31,7 @@ public class BidService implements IBidService {
         int clientId = 1; // TODO: obtener el clientId mediante el authToken
         Assistant assistant = assistantRepository.findByClientIdAndAuctionId(clientId, auctionId);
         CatalogItem item = catalogItemRepository.findById(productId).get();
-        Bid latestBid = bidRepository.findFirstByItemOrderByBidIdDesc(item.getCatalogItemId());
+        Bid latestBid = bidRepository.findFirstByItemOrderByIdDesc(item.getId());
         BigDecimal currentPrice = latestBid != null ? latestBid.getAmmount() : item.getBasePrice();
         if (isBidValid(currentPrice, dto.getAmmount(), assistant.getAuction().getCategory())) {
             Bid bid = BidMapper.fromDto(dto, item, assistant, Admited.si);
