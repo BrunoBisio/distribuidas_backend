@@ -17,10 +17,10 @@ import distribuidas.backend.services.IBidService;
 @RequestMapping("")
 public class BidController {
     @Autowired
-    private IBidService service;
+    private IBidService bidService;
 
     @PostMapping("/auction/{auctionId}/product/{productId}/bid")
     public BidDto index(@PathVariable int auctionId, @PathVariable int productId, @RequestBody BidDto dto) {
-        return service.createBid(auctionId, productId, dto);
+        return bidService.createBid(auctionId, productId, dto);
     }
 }
