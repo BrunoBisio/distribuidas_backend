@@ -42,7 +42,7 @@ public class Client implements Serializable {
     @Column(name = "admitido", columnDefinition = "varchar(2) check(admitido in ('si','no'))")
     private Admited admited;
     @Enumerated(EnumType.STRING)
-    @Column(name = "categoria", columnDefinition = "varchar(10) check (categoria in ('comun', 'especial', 'plata', 'oro', 'platino'))")
+    @Column(name = "categoria", columnDefinition = "varchar(10) check (categoria in ('comun', 'especial', 'plata', 'oro', 'platino')) default 'comun'")
     private Category category;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "verificador", nullable=false)
