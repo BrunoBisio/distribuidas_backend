@@ -59,7 +59,10 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 // dont authenticate this particular request
                 .authorizeRequests().antMatchers(HttpMethod.POST,"/login", "/user").permitAll().
                 // all other requests need to be authenticated
-                        anyRequest().authenticated().and().
+                // /auction /auction/soon /auction/id
+                        antMatchers("/auction/user").authenticated().
+                        antMatchers("/auction", "/auction/soon", "/auction/{\\d+}").permitAll().
+                anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to
                 // store user's state.
                         exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
