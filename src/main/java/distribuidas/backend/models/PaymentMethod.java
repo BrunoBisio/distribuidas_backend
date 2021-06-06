@@ -34,7 +34,7 @@ public class PaymentMethod {
     private String currency;
     @Column(name = "numeroCuenta", length = 18)
     private String accountNumber;
-    @Column(name = "numeroTarjeta", length = 15)
+    @Column(name = "numeroTarjeta", length = 16)
     private String cardNumber;
     @Column(name = "cvv", length = 4)
     private String cvv;
