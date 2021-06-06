@@ -39,12 +39,12 @@ public class Auction {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "identificador", nullable = false)
     private int id;
-    @Column(name = "fecha", columnDefinition = "DATE CHECK (fecha > dateAdd(dd, 10, getdate()))")
+    @Column(name = "fecha", columnDefinition = "date check (fecha > dateAdd(dd, 10, getdate()))")
     private Date openDate;
     @Column(name = "hora", nullable = false)
     private Time hour;
     @Enumerated(EnumType.STRING)
-    @Column(name = "estado", columnDefinition = "VARCHAR(10) CHECK (estado in ('abierta','carrada')")
+    @Column(name = "estado", columnDefinition = "varchar(10) check (estado in ('abierta','carrada'))")
     private State state;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "subastador", referencedColumnName="identificador")
@@ -56,21 +56,18 @@ public class Auction {
     private int maxAssistants;
     // --caracteristica del lugar donde se hacen las subastas
     @Enumerated(EnumType.STRING)
-    @Column(name = "tieneDeposito", columnDefinition = "varchar(2) check(tieneDeposito in ('si','no')")
+    @Column(name = "tieneDeposito", columnDefinition = "varchar(2) check (tieneDeposito in ('si','no'))")
     private Admited hasStorage;
     @Enumerated(EnumType.STRING)
-    @Column(name = "seguridadPropia", columnDefinition = "varchar(2) check(seguridadPropia in ('si','no')")
+    @Column(name = "seguridadPropia", columnDefinition = "varchar(2) check (seguridadPropia in ('si','no'))")
     private Admited hasSecurity;
     @Enumerated(EnumType.STRING)
-    @Column(name = "categoria", columnDefinition = "varchar(10) CHECK (categoria in ('comun', 'especial', 'plata', 'oro', 'platino')")
+    @Column(name = "categoria", columnDefinition = "varchar(10) CHECK (categoria in ('comun', 'especial', 'plata', 'oro', 'platino'))")
     private Category category;
     @Column(name = "nombreDeSubasta", nullable = false)
     private String name;
     @Column(name = "descripcionDeSubasta", nullable = false)
     private String description;
-    @Column(name = "fotoDeSubasta", nullable = false)
+    @Column(name = "fotoDeSubasta")
     private String photo;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "verificador", nullable=false)
-    private List<Product> products;
 }

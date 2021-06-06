@@ -32,11 +32,13 @@ public class Owner {
     @MapsId
     @JoinColumn(name = "numeroPais")
     private Country country;
-    @Column(name = "verificaciónFinanciera", columnDefinition = "varchar(2) check(verificaciónFinanciera in ('si','no'))")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "verificaciónFinanciera", columnDefinition = "varchar(2) check (verificaciónFinanciera in ('si','no'))")
     private Admited financialVerification;
-    @Column(name = "verificaciónJudicial", columnDefinition = "varchar(2) check(verificaciónJudicial in ('si','no'))")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "verificaciónJudicial", columnDefinition = "varchar(2) check (verificaciónJudicial in ('si','no'))")
     private Admited legalVerification;
-    @Column(name = "calificacionRiesgo", columnDefinition = "check(calificacionRiesgo in (1,2,3,4,5,6))")
+    @Column(name = "calificacionRiesgo", columnDefinition = "int check (calificacionRiesgo in (1,2,3,4,5,6))")
     private int riskCalification;
     @OneToOne
     @MapsId

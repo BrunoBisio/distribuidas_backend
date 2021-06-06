@@ -46,8 +46,12 @@ public class User implements Serializable {
     @Column(name = "direccion", length = 250)
     private String address;
     @Enumerated(EnumType.STRING)
-    @Column(name = "estado", columnDefinition = "varchar(15) check (estado in ('activo', 'incativo'))")
+    @Column(name = "estado", columnDefinition = "varchar(15) check (estado in ('activo', 'inactivo'))")
     private Status status;
     @Column(name = "foto")
     private String picture;
+    @Column(name = "mail")
+    private String email;
+    @Column(name = "contrasenia")
+    private String password;
 }

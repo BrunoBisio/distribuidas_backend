@@ -35,23 +35,23 @@ public class AuctionRegistry {
     private int id;
     @OneToOne
     @MapsId
-    @JoinColumn(name = "subasta", referencedColumnName="identificador", nullable = false)
+    @JoinColumn(name = "subasta", nullable = false)
     private Auction auction;
     @OneToOne
     @MapsId
-    @JoinColumn(name = "duenio", referencedColumnName="identificador", nullable = false)
+    @JoinColumn(name = "duenio", nullable = false)
     private Owner owner;
     @OneToOne
     @MapsId
-    @JoinColumn(name = "producto", referencedColumnName="identificador", nullable = false)
+    @JoinColumn(name = "producto", nullable = false)
     private Product product;
     @OneToOne
     @MapsId
-    @JoinColumn(name = "cliente", referencedColumnName="identificador", nullable = false)
+    @JoinColumn(name = "cliente", nullable = false)
     private Client client;
     @OneToOne
     @MapsId
-    @JoinColumn(name = "medioDePago", referencedColumnName="identificador", nullable = false)
+    @JoinColumn(name = "medioDePago", nullable = false)
     private PaymentMethod paymentMethod;
     @Column(name = "importe", columnDefinition = "decimal(18,2) not null check (importe > 0.01)")
     private BigDecimal ammount;

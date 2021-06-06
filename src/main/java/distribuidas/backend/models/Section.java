@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "productos")
+@Table(name = "sectores")
 @Getter @Setter
 public class Section {
     /*

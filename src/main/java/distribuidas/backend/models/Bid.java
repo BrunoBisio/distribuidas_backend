@@ -40,6 +40,7 @@ public class Bid {
     private CatalogItem item;
     @Column(name = "importe", columnDefinition = "decimal(18,2) not null check (importe > 0.01)")
     private BigDecimal ammount;
+    @Enumerated(EnumType.STRING)
     @Column(name = "ganador", columnDefinition = "varchar(2) check (ganador in ('si','no')) default 'no'")
     private Admited winner;
     @Column(name = "fechaDePujo", nullable = false)
