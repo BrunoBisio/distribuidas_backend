@@ -27,15 +27,13 @@ public class Bid {
         go
     */
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "identificador", nullable = false)
     private int id;
     @OneToOne
-    @MapsId
     @JoinColumn(name = "asistente")
     private Assistant assistant;
     @OneToOne
-    @MapsId
     @JoinColumn(name = "item")
     private CatalogItem item;
     @Column(name = "importe", columnDefinition = "decimal(18,2) not null check (importe > 0.01)")

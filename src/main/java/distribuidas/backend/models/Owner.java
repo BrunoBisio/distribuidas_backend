@@ -29,19 +29,17 @@ public class Owner {
     @Column(name = "identificador", nullable = false)
     private int id;
     @OneToOne
-    @MapsId
     @JoinColumn(name = "numeroPais")
     private Country country;
     @Enumerated(EnumType.STRING)
-    @Column(name = "verificaciónFinanciera", columnDefinition = "varchar(2) check (verificaciónFinanciera in ('si','no'))")
+    @Column(name = "verificacionFinanciera", columnDefinition = "varchar(2) check (verificacionFinanciera in ('si','no'))")
     private Admited financialVerification;
     @Enumerated(EnumType.STRING)
-    @Column(name = "verificaciónJudicial", columnDefinition = "varchar(2) check (verificaciónJudicial in ('si','no'))")
+    @Column(name = "verificacionJudicial", columnDefinition = "varchar(2) check (verificacionJudicial in ('si','no'))")
     private Admited legalVerification;
     @Column(name = "calificacionRiesgo", columnDefinition = "int check (calificacionRiesgo in (1,2,3,4,5,6))")
     private int riskCalification;
     @OneToOne
-    @MapsId
     @JoinColumn(name = "verificador")
     private Employee employee;
 }

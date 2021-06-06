@@ -30,27 +30,22 @@ public class AuctionRegistry {
         go
     */
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "identificador", nullable = false)
     private int id;
     @OneToOne
-    @MapsId
     @JoinColumn(name = "subasta", nullable = false)
     private Auction auction;
     @OneToOne
-    @MapsId
     @JoinColumn(name = "duenio", nullable = false)
     private Owner owner;
     @OneToOne
-    @MapsId
     @JoinColumn(name = "producto", nullable = false)
     private Product product;
     @OneToOne
-    @MapsId
     @JoinColumn(name = "cliente", nullable = false)
     private Client client;
     @OneToOne
-    @MapsId
     @JoinColumn(name = "medioDePago", nullable = false)
     private PaymentMethod paymentMethod;
     @Column(name = "importe", columnDefinition = "decimal(18,2) not null check (importe > 0.01)")

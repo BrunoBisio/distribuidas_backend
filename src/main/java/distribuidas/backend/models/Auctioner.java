@@ -24,7 +24,6 @@ public class Auctioner {
     @Column(name = "identificador", nullable = false)
     private int id;
     @OneToOne
-    @MapsId
     @JoinColumn(name = "identificador")
     private User user;
     @Column(name = "matricula", columnDefinition = "varchar(15)")

@@ -36,7 +36,7 @@ public class Auction {
      )
      */
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "identificador", nullable = false)
     private int id;
     @Column(name = "fecha", columnDefinition = "date check (fecha > dateAdd(dd, 10, getdate()))")

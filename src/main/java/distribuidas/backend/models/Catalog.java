@@ -23,7 +23,7 @@ public class Catalog {
         go
     * */
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "identificador", nullable = false)
     private int id;
     @Column(name = "descripcion", columnDefinition = "varchar(250) not null")
@@ -32,7 +32,6 @@ public class Catalog {
     @JoinColumn(name = "subasta", referencedColumnName="identificador")
     private Auction auction;
     @OneToOne
-    @MapsId
     @JoinColumn(name = "responsable")
     private Employee employee;
 }
