@@ -30,7 +30,7 @@ public class Assistant {
     @Column(name = "numeroPostor", nullable = false)
     private int bidderNumber;
     @OneToOne
-    @JoinColumn(name = "cliente", referencedColumnName = "", nullable = false)
+    @JoinColumn(name = "cliente", nullable = false)
     private Client client;
     @OneToOne
     @JoinColumn(name = "subasta", nullable = false)

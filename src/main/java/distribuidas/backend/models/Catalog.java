@@ -29,7 +29,7 @@ public class Catalog {
     @Column(name = "descripcion", columnDefinition = "varchar(250) not null")
     private String description;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "subasta", referencedColumnName="identificador")
+    @JoinColumn(name = "subasta")
     private Auction auction;
     @OneToOne
     @JoinColumn(name = "responsable")

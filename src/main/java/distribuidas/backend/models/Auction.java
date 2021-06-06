@@ -62,7 +62,7 @@ public class Auction {
     @Column(name = "seguridadPropia", columnDefinition = "varchar(2) check (seguridadPropia in ('si','no'))")
     private Admited hasSecurity;
     @Enumerated(EnumType.STRING)
-    @Column(name = "categoria", columnDefinition = "varchar(10) CHECK (categoria in ('comun', 'especial', 'plata', 'oro', 'platino'))")
+    @Column(name = "categoria", columnDefinition = "varchar(10) CHECK (categoria in ('comun', 'especial', 'plata', 'oro', 'platino')) default 'comun'")
     private Category category;
     @Column(name = "nombreDeSubasta", nullable = false)
     private String name;
