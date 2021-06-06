@@ -15,7 +15,7 @@ public class PaymentMethod {
             tipo varchar(20),
             moneda varchar(10),
             numeroCuenta varchar(18),
-            numeroTarjeta varchar(15),
+            numeroTarjeta varchar(16),
             cvv varchar(4),
             fechaVencimiento varchar(4),
             cliente int not null,
@@ -38,7 +38,7 @@ public class PaymentMethod {
     private String cardNumber;
     @Column(name = "cvv", length = 4)
     private String cvv;
-    @Column(name = "fechaVencimiento", length = 4)
+    @Column(name = "fechaVencimiento", length = 5)
     private String expirationDate;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente")
