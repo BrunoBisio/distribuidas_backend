@@ -7,6 +7,7 @@ import distribuidas.backend.enums.Currency;
 import distribuidas.backend.enums.State;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -37,6 +38,7 @@ public class Product {
     @Column(name = "identificador", nullable = false)
     private int id;
     @Column(name = "fecha")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date created;
     @Enumerated(EnumType.STRING)
     @Column(name = "disponible", columnDefinition = "varchar(2) check (disponible in ('si','no'))")

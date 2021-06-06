@@ -11,6 +11,8 @@ import distribuidas.backend.enums.Category;
 import distribuidas.backend.enums.State;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "subastas")
 @Getter @Setter
@@ -39,7 +41,8 @@ public class Auction {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "identificador", nullable = false)
     private int id;
-    @Column(name = "fecha", columnDefinition = "date check (fecha > dateAdd(dd, 10, getdate()))")
+    @Column(name = "fecha") //, columnDefinition = "date check (fecha > dateAdd(dd, 10, getdate()))")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date openDate;
     @Column(name = "hora", nullable = false)
     private Time hour;
