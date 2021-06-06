@@ -1,9 +1,6 @@
 package distribuidas.backend.models;
 
 import java.io.Serializable;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,7 +43,7 @@ public class User implements Serializable {
     @Column(name = "direccion", length = 250)
     private String address;
     @Enumerated(EnumType.STRING)
-    @Column(name = "estado", columnDefinition = "varchar(15) check (estado in ('activo', 'inactivo'))")
+    @Column(name = "estado", length = 15)
     private Status status;
     @Column(name = "foto")
     private String picture;
