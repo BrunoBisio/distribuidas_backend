@@ -86,6 +86,8 @@ public class Auction {
     private String description;
     @Column(name = "fotoDeSubasta")
     private String photo;
+    @Column(name = "moneda", length = 3)
+    private String currency;
     @Transient
     private List<Product> products;
 }
