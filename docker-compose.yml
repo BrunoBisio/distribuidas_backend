@@ -1,13 +1,11 @@
 version: '2'
 services:
     distribuidas-db:
-        image: mysql
+        image: "mcr.microsoft.com/mssql/server"
         container_name: distribuidas-db
         environment:
-            - MYSQL_ROOT_PASSWORD=rootpassword1
-            - MYSQL_DATABASE=auctions
-            - MYSQL_USER=user1
-            - MYSQL_PASSWORD=password1
+            - SA_PASSWORD=Fresquit0
+            - ACCEPT_EULA=Y
         ports:
             - 5432:3306
         cap_add:
