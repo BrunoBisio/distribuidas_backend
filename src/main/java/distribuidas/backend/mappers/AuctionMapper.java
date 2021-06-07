@@ -16,6 +16,9 @@ public class AuctionMapper {
         dto.setDescription(auction.getDescription());
         dto.setProductDtos(auction.getProducts().stream().map(ProductMapper::toDto).collect(Collectors.toList()));
         dto.setPhoto(auction.getPhoto());
+        dto.setName(auction.getName());
+        dto.setQuantity(auction.getProducts().size());
+        dto.setDescription(auction.getDescription());
         return dto;
     }
 
