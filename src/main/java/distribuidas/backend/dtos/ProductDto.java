@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import distribuidas.backend.enums.Admited;
-import distribuidas.backend.enums.Currency;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
