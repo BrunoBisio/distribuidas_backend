@@ -1,5 +1,6 @@
 package distribuidas.backend.models;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -73,4 +74,6 @@ public class Product {
     private String currency;
     @Transient
     private List<Photo> photos;
+    @Transient
+    private BigDecimal price;
 }

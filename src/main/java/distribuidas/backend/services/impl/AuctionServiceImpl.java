@@ -87,13 +87,17 @@ public class AuctionServiceImpl implements IAuctionService {
             Catalog catalog = catalogRepository.findByAuctionId(auction.getId());
             if (catalog != null) {
                 List<Product> products = catalogItemRepository.findByCatalogId(catalog.getId())
-                    .stream().map(CatalogItem::getProduct)
-                    .map(this::setPhoto)
-                    .collect(Collectors.toList());
+                    .stream().map(this::setProductPrice).map(CatalogItem::getProduct)
+                    .map(this::setPhoto).collect(Collectors.toList());
                 auction.setProducts(products);
             }
         }
         return auction;
+    }
+
+    private CatalogItem setProductPrice(CatalogItem item) {
+        item.getProduct().setPrice(item.getBasePrice());
+        return item;
     }
 
     private Product setPhoto(Product product) {
