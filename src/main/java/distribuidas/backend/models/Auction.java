@@ -4,14 +4,27 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import distribuidas.backend.enums.Admited;
 import distribuidas.backend.enums.Category;
 import distribuidas.backend.enums.State;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "subastas")
@@ -75,8 +88,4 @@ public class Auction {
     private String photo;
     @Transient
     private List<Product> products;
-
-    public void addProduct(Product prod) {
-        products.add(prod);
-    }
 }

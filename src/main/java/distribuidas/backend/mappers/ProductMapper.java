@@ -16,6 +16,7 @@ public class ProductMapper {
         dto.setName(product.getName());
         dto.setDescription(product.getDescription());
         dto.setPhotos(product.getPhotos().stream().map(Photo::getPhoto).collect(Collectors.toList()));
+        dto.setInitialPrice(product.getPrice());
         return dto;
     }
 }

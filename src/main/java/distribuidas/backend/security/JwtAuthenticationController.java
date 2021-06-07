@@ -1,9 +1,5 @@
 package distribuidas.backend.security;
 
-import distribuidas.backend.dtos.JwtResponse;
-import distribuidas.backend.dtos.UserDto;
-import distribuidas.backend.services.IClientService;
-import distribuidas.backend.services.impl.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,7 +7,15 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import distribuidas.backend.dtos.JwtResponse;
+import distribuidas.backend.dtos.UserDto;
+import distribuidas.backend.services.IClientService;
 
 @RestController
 @CrossOrigin

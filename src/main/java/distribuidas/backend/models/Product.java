@@ -1,16 +1,28 @@
 package distribuidas.backend.models;
 
-import javax.persistence.*;
-
-import distribuidas.backend.enums.Admited;
-import distribuidas.backend.enums.Currency;
-import distribuidas.backend.enums.State;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
-
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import distribuidas.backend.enums.Admited;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "productos")
@@ -62,4 +74,6 @@ public class Product {
     private String currency;
     @Transient
     private List<Photo> photos;
+    @Transient
+    private BigDecimal price;
 }
