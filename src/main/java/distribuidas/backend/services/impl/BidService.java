@@ -3,6 +3,7 @@ package distribuidas.backend.services.impl;
 import distribuidas.backend.enums.Category;
 import distribuidas.backend.mappers.BidMapper;
 import distribuidas.backend.models.*;
+import distribuidas.backend.security.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class BidService implements IBidService {
     @Override
     public BidDto createBid(int auctionId, int productId, BidDto dto) {
         BidDto savedBidDto = null;
-        int clientId = 1; // TODO: obtener el clientId mediante el authToken
+        int clientId = Context.getPrincipalId(); // TODO: obtener el clientId mediante el authToken
         Assistant assistant = assistantRepository.findByClientIdAndAuctionId(clientId, auctionId);
         CatalogItem item = catalogItemRepository.findById(productId).get();
         Bid latestBid = bidRepository.findFirstByItemOrderByIdDesc(item.getId());
