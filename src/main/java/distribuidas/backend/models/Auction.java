@@ -51,7 +51,7 @@ public class Auction {
      )
      */
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "identificador", nullable = false)
     private int id;
     @Column(name = "fecha") //, columnDefinition = "date check (fecha > dateAdd(dd, 10, getdate()))")
@@ -86,6 +86,8 @@ public class Auction {
     private String description;
     @Column(name = "fotoDeSubasta")
     private String photo;
+    @Column(name = "moneda", length = 3)
+    private String currency;
     @Transient
     private List<Product> products;
 }

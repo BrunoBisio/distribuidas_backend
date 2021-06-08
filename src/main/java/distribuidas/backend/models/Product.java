@@ -46,7 +46,7 @@ public class Product {
         go
     */
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "identificador", nullable = false)
     private int id;
     @Column(name = "fecha")

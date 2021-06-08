@@ -45,6 +45,6 @@ public class Client implements Serializable {
     @Column(name = "categoria", columnDefinition = "varchar(10) check (categoria in ('comun', 'especial', 'plata', 'oro', 'platino')) default 'comun'")
     private Category category;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "verificador", nullable=false)
+    @JoinColumn(name = "verificador")
     private Employee authorizedBy;
 }

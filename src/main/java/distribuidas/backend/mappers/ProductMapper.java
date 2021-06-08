@@ -11,12 +11,12 @@ public class ProductMapper {
     public static ProductDto toDto(Product product){
         ProductDto  dto = new ProductDto();
         dto.setId(product.getId());
-        dto.setCurrency(product.getCurrency());
-        dto.setStatus(product.getAvailable());
+        dto.setAvailable(product.getAvailable());
         dto.setName(product.getName());
         dto.setDescription(product.getDescription());
         dto.setPhotos(product.getPhotos().stream().map(Photo::getPhoto).collect(Collectors.toList()));
         dto.setInitialPrice(product.getPrice());
+        dto.setFullDescription(product.getFullDescription());
         return dto;
     }
 }

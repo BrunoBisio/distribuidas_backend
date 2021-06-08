@@ -77,7 +77,7 @@ public class AuctionServiceImpl implements IAuctionService {
 
     @Override
     public AuctionDto getAuctionById(int id) {
-        Auction auction = auctionRepository.findAuctionByStateAndId(State.abierta,id);
+        Auction auction = auctionRepository.findById(id).get();
         auction = setProducts(auction);
         return AuctionMapper.toDto(auction);
     }

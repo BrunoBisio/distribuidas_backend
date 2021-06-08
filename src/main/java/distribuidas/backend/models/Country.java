@@ -28,7 +28,7 @@ public class Country {
         go
     */
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "numero", nullable = false)
     private int id;
     @Column(name = "nombre", length = 250, nullable = false)

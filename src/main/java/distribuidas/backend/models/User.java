@@ -33,8 +33,9 @@ public class User implements Serializable {
         go
     */
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "identificador", nullable = false)
+    @Getter
     private int userId;
     @Column(name = "documento", length = 20, nullable = false)
     private String identityNumber;

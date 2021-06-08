@@ -19,6 +19,7 @@ public class AuctionMapper {
         dto.setName(auction.getName());
         dto.setQuantity(auction.getProducts().size());
         dto.setDescription(auction.getDescription());
+        dto.setCurrency(auction.getCurrency());
         return dto;
     }
 

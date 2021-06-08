@@ -19,4 +19,5 @@ public class AuctionDto {
     private String photo;
     private String name;
     private int quantity;
+    private String currency;
 }

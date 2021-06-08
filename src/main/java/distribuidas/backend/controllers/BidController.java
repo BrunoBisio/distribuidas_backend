@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import distribuidas.backend.dtos.BidDto;
+import distribuidas.backend.security.Context;
 import distribuidas.backend.services.IBidService;
 
 @RestController
@@ -18,6 +19,7 @@ public class BidController {
 
     @PostMapping("/auction/{auctionId}/product/{productId}/bid")
     public BidDto index(@PathVariable int auctionId, @PathVariable int productId, @RequestBody BidDto dto) {
-        return bidService.createBid(auctionId, productId, dto);
+        // Context.getPrincipalId()
+        return bidService.createBid(auctionId, productId, dto, Context.getPrincipalId());
     }
 }

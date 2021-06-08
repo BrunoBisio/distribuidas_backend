@@ -15,6 +15,8 @@ public class ClientDto {
     private String address;
     private Status status;
     private String picture;
+    private String email;
+    private String phoneNumber;
     // client
     private Category category;
 }

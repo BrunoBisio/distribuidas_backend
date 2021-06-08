@@ -67,14 +67,14 @@ public class ClientService implements IClientService, UserDetailsService {
         user.setIdentityNumber(userdto.getDocument());
         user.setAddress(userdto.getAddress());
         user.setName(userdto.getName());
-        user.setStatus(Status.activo);
+        user.setStatus(Status.inactivo);
         Client client = new Client();
         client.setId(user.getUserId());
-        client.setAdmited(Admited.si);
-        client.setCategory(Category.comun);
         client.setUser(user);
         client.setCountry(countryRepository.findById(1).get());
-        client.setAuthorizedBy(employeeRepository.findById(1).get());
+        client.setAdmited(Admited.no);
+        client.setCategory(Category.comun);
+        client.setAuthorizedBy(employeeRepository.findById(3).get());
         clientRepo.save(client);
     }
 }
