@@ -1,5 +1,7 @@
 package distribuidas.backend.mappers;
 
+import java.util.Date;
+
 import distribuidas.backend.dtos.BidDto;
 import distribuidas.backend.enums.Admited;
 import distribuidas.backend.models.Assistant;
@@ -18,7 +20,7 @@ public class BidMapper {
     public static Bid fromDto(BidDto dto, CatalogItem item, Assistant assistant, Admited admited) {
         Bid bid = new Bid();
         bid.setAmmount(dto.getAmmount());
-        bid.setCreated(dto.getCreated());
+        bid.setCreated(new Date());
         bid.setItem(item);
         bid.setAssistant(assistant);
         bid.setWinner(admited);
