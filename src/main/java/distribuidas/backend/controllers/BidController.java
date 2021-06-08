@@ -20,6 +20,6 @@ public class BidController {
     @PostMapping("/auction/{auctionId}/product/{productId}/bid")
     public BidDto index(@PathVariable int auctionId, @PathVariable int productId, @RequestBody BidDto dto) {
         // Context.getPrincipalId()
-        return bidService.createBid(auctionId, productId, dto, 11);
+        return bidService.createBid(auctionId, productId, dto, Context.getPrincipalId());
     }
 }
