@@ -6,4 +6,6 @@ import distribuidas.backend.dtos.PaymentMethodDto;
 
 public interface IPaymentMethodService {
     List<PaymentMethodDto> getPaymentMethods(int clientId);
+
+    PaymentMethodDto createPaymentMethod(int principalId, PaymentMethodDto dto);
 }

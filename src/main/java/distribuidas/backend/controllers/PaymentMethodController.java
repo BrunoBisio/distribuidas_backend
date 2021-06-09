@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +21,11 @@ public class PaymentMethodController {
 
     @GetMapping("")
     public List<PaymentMethodDto> index() {
-        // Context.getPrincipalId()
         return service.getPaymentMethods(Context.getPrincipalId());
+    }
+
+    @PostMapping("")
+    public PaymentMethodDto index(@RequestBody PaymentMethodDto dto) {
+        return service.createPaymentMethod(Context.getPrincipalId(), dto);
     }
 }

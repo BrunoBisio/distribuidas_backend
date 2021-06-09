@@ -15,4 +15,16 @@ public class PaymentMethodMapper {
         dto.setTipo(pm.getTipo());
         return dto;
     }
+
+    public static PaymentMethod fromDto(PaymentMethodDto dto) {
+        PaymentMethod pm = new PaymentMethod();
+        pm.setAccountNumber(dto.getAccountNumber());
+        pm.setCardNumber(dto.getCardNumber());
+        pm.setCurrency(dto.getCurrency());
+        pm.setCvv(dto.getCvv());
+        pm.setExpirationDate(dto.getExpirationDate());
+        pm.setStatus(dto.getStatus());
+        pm.setTipo(dto.getTipo());
+        return pm;
+    }
 }
