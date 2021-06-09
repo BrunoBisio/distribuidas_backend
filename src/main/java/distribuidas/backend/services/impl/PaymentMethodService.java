@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import distribuidas.backend.dtos.PaymentMethodDto;
+import distribuidas.backend.enums.Status;
 import distribuidas.backend.mappers.PaymentMethodMapper;
 import distribuidas.backend.models.Client;
 import distribuidas.backend.models.PaymentMethod;
@@ -33,6 +34,7 @@ public class PaymentMethodService implements IPaymentMethodService {
         Client client = clientRepository.findById(clientId).get();
         PaymentMethod pm = PaymentMethodMapper.fromDto(dto);
         pm.setClient(client);
+        pm.setStatus(Status.inactivo);
         pm = paymentMethodRepo.save(pm);
         return PaymentMethodMapper.toDto(pm);
     }
