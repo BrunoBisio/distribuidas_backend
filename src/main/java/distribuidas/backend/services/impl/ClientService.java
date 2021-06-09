@@ -67,6 +67,7 @@ public class ClientService implements IClientService, UserDetailsService {
         user.setIdentityNumber(userdto.getDocument());
         user.setAddress(userdto.getAddress());
         user.setName(userdto.getName());
+        user.setPhoneNumber(userdto.getPhoneNumber());
         user.setStatus(Status.inactivo);
         Client client = new Client();
         client.setId(user.getUserId());
