@@ -46,11 +46,12 @@ public class AuctionServiceImpl implements IAuctionService {
 
     @Override
     public AuctionList getAuctionsForUser(int id) {
-        ClientDto client = clientService.getClientById(id);
-        List<Category> categories = Arrays.stream(Category.values())
+        // ClientDto client = clientService.getClientById(id);
+        /*List<Category> categories = Arrays.stream(Category.values())
             .filter(category -> category.ordinal() <= client.getCategory().ordinal() +1)
-            .collect(Collectors.toList());
-        List<AuctionDto> auctionDto = auctionRepository.findAuctionByStateAndCategoryIn(State.abierta,categories)
+            .collect(Collectors.toList());*/
+        // List<AuctionDto> auctionDto = auctionRepository.findAuctionByStateAndCategoryIn(State.abierta,categories)
+        List<AuctionDto> auctionDto = auctionRepository.findAuctionByState(State.abierta)
                 .stream().map(this::setProducts).map(AuctionMapper::toDto).collect(Collectors.toList());
         return new AuctionList(auctionDto);
     }
@@ -65,11 +66,11 @@ public class AuctionServiceImpl implements IAuctionService {
 
     @Override
     public AuctionList getFututreAuctionsForUser(int id) {
-        ClientDto client = clientService.getClientById(id);
-        List<Category> categories = Arrays.stream(Category.values())
+        // ClientDto client = clientService.getClientById(id);
+        /*List<Category> categories = Arrays.stream(Category.values())
             .filter(category -> category.ordinal() <= client.getCategory().ordinal() +1)
-            .collect(Collectors.toList());
-        List<AuctionDto> auctionDto = auctionRepository.findAuctionByStateAndCategoryIn(State.cerrada,categories)
+            .collect(Collectors.toList());*/
+        List<AuctionDto> auctionDto = auctionRepository.findAuctionByState(State.cerrada)
                 .stream().filter(a -> a.getOpenDate().after(new Date()))
                 .map(this::setProducts).map(AuctionMapper::toDto).collect(Collectors.toList());
         return new AuctionList(auctionDto);
