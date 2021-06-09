@@ -25,7 +25,7 @@ public class PaymentMethodService implements IPaymentMethodService {
 
     @Override
     public List<PaymentMethodDto> getPaymentMethods(int clientId) {
-        return paymentMethodRepo.findByClientId(clientId)
+        return paymentMethodRepo.findByClientIdAndStatus(clientId,Status.activo)
             .stream().map(PaymentMethodMapper::toDto).collect(Collectors.toList());
     }
 
