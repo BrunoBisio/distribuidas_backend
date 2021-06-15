@@ -56,6 +56,9 @@ public class ClientService implements IClientService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userRepo.findFirstByEmail(s);
+        if (user.getStatus().ordinal() == Status.inactivo.ordinal()) {
+            throw new UsernameNotFoundException("No se ha encontrado ningun usuario Activo con esa combinación");
+        }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
                 new ArrayList<>());
     }
@@ -67,6 +70,7 @@ public class ClientService implements IClientService, UserDetailsService {
         user.setIdentityNumber(userdto.getDocument());
         user.setAddress(userdto.getAddress());
         user.setName(userdto.getName());
+        user.setPhoneNumber(userdto.getPhoneNumber());
         user.setStatus(Status.inactivo);
         Client client = new Client();
         client.setId(user.getUserId());
