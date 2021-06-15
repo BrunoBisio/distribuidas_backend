@@ -81,4 +81,15 @@ public class ClientService implements IClientService, UserDetailsService {
         client.setAuthorizedBy(employeeRepository.findById(3).get());
         clientRepo.save(client);
     }
+
+    @Override
+    public ClientDto updateClient(int id, UserDto userDto) {
+        Client client = clientRepo.findById(id).get();
+        User user = client.getUser();
+        user.setAddress(userDto.getAddress());
+        user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setPassword(bcryptEncoder.encode(userDto.getPassword()));
+        client = clientRepo.save(client);
+        return ClientMapper.toDto(client);
+    }
 }

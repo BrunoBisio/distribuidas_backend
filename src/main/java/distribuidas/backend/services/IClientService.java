@@ -11,4 +11,5 @@ public interface IClientService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException;
     public void save(UserDto userdto);
     public UserDto getByEmail(String email);
+    public ClientDto updateClient(int id, UserDto userDto);
 }
