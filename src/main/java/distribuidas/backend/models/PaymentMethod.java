@@ -52,7 +52,7 @@ public class PaymentMethod {
     private String cvv;
     @Column(name = "fechaVencimiento", length = 5)
     private String expirationDate;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente")
     private Client client;
     @Enumerated(EnumType.STRING)

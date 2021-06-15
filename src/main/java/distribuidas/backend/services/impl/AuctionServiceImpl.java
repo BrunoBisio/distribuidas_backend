@@ -1,6 +1,5 @@
 package distribuidas.backend.services.impl;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import distribuidas.backend.dtos.AuctionDto;
 import distribuidas.backend.dtos.AuctionList;
-import distribuidas.backend.dtos.ClientDto;
-import distribuidas.backend.enums.Category;
 import distribuidas.backend.enums.State;
 import distribuidas.backend.mappers.AuctionMapper;
 import distribuidas.backend.models.Auction;

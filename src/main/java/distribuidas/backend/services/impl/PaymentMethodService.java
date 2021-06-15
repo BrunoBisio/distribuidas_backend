@@ -38,4 +38,10 @@ public class PaymentMethodService implements IPaymentMethodService {
         pm = paymentMethodRepo.save(pm);
         return PaymentMethodMapper.toDto(pm);
     }
+
+    @Override
+    public void deletePaymentMethod(int id) {
+        PaymentMethod pm = paymentMethodRepo.findById(id).get();
+        paymentMethodRepo.delete(pm);
+    }
 }

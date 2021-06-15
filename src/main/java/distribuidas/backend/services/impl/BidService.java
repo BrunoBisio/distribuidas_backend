@@ -1,23 +1,26 @@
 package distribuidas.backend.services.impl;
 
-import distribuidas.backend.enums.Category;
-import distribuidas.backend.mappers.BidMapper;
-import distribuidas.backend.models.*;
-import distribuidas.backend.security.Context;
+import java.math.BigDecimal;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import distribuidas.backend.dtos.BidDto;
 import distribuidas.backend.enums.Admited;
+import distribuidas.backend.enums.Category;
+import distribuidas.backend.mappers.BidMapper;
+import distribuidas.backend.models.Assistant;
+import distribuidas.backend.models.Auction;
+import distribuidas.backend.models.Bid;
+import distribuidas.backend.models.CatalogItem;
+import distribuidas.backend.models.Client;
 import distribuidas.backend.repositories.AssistantRepository;
 import distribuidas.backend.repositories.AuctionRepository;
 import distribuidas.backend.repositories.BidRepository;
 import distribuidas.backend.repositories.CatalogItemRepository;
 import distribuidas.backend.repositories.ClientRepository;
 import distribuidas.backend.services.IBidService;
-
-import java.math.BigDecimal;
-import java.util.Random;
 
 @Service
 public class BidService implements IBidService {

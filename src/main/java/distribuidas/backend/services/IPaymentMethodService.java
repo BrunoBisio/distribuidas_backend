@@ -8,4 +8,6 @@ public interface IPaymentMethodService {
     List<PaymentMethodDto> getPaymentMethods(int clientId);
 
     PaymentMethodDto createPaymentMethod(int principalId, PaymentMethodDto dto);
+
+    void deletePaymentMethod(int id);
 }
