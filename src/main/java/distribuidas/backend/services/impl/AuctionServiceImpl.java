@@ -25,8 +25,8 @@ import distribuidas.backend.services.IAuctionService;
 public class AuctionServiceImpl implements IAuctionService {
     @Autowired
     private AuctionRepository auctionRepository;
-    @Autowired
-    private ClientService clientService;
+    // @Autowired
+    // private ClientService clientService;
     @Autowired
     private PhotoRepository photoRepository;
     @Autowired

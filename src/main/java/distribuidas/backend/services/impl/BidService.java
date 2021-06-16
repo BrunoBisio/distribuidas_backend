@@ -40,7 +40,7 @@ public class BidService implements IBidService {
     public BidDto createBid(int auctionId, int productId, BidDto dto, int clientId) {
         BidDto savedBidDto = null;
         Assistant assistant = assistantRepository.findByClientIdAndAuctionId(clientId, auctionId);
-        // TODO: codigo fresquito
+        // codigo fresquito
         if (assistant == null) {
             Client client = clientRepository.findById(clientId).get();
             Auction auction = auctionRepository.findById(auctionId).get();

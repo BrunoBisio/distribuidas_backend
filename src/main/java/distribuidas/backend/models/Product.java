@@ -72,6 +72,9 @@ public class Product {
     private String description;
     @Column(name = "moneda", nullable = false)
     private String currency;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "aprobado", columnDefinition = "default 'no'")
+    private Admited approved;
     @Transient
     private List<Photo> photos;
     @Transient
