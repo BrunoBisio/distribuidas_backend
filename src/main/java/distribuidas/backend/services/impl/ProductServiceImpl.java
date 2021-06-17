@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import distribuidas.backend.dtos.ProductDto;
+import distribuidas.backend.enums.Admited;
 import distribuidas.backend.mappers.ProductMapper;
 import distribuidas.backend.repositories.ProductRepository;
 import distribuidas.backend.services.IProductService;
@@ -37,7 +38,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public List<ProductDto> getUnapprovedProducts(int clientId) {
-        return prodRepository.findUnapprovedProducts(clientId).stream()
+        return prodRepository.findByOwnerIdAndApproved(clientId, Admited.no).stream()
             .map(ProductMapper::toDto).collect(Collectors.toList());
     }
     

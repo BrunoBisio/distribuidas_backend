@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import distribuidas.backend.models.AuctionRegistry;
 
 public interface AuctionRegistryRepository extends JpaRepository<AuctionRegistry, Integer> {
-    List<AuctionRegistry> findbyClientId(int clientId);
+    List<AuctionRegistry> findByClientId(int clientId);
 }

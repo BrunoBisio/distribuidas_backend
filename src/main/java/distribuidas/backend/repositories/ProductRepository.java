@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import distribuidas.backend.enums.Admited;
 import distribuidas.backend.models.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
@@ -30,7 +31,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findPendingAuctionProducts(int ownerId);
 
     // PRODUCTOS SUBASTADOS
-    @Query(value = "SELECT P.identificador as id_producto " +
+    @Query(value = "SELECT P.* " +
     "FROM productos P " +
     "JOIN duenios D ON P.duenio = D.identificador " +
     "JOIN itemsCatalogo IC ON P.identificador = IC.producto " +
@@ -38,9 +39,17 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findSoldProducts(int ownerId);
 
     // PRODUCTOS NO ACEPTADOS
-    @Query(value = "SELECT P.identificador as id_producto " +
+    /*@Query(value = "SELECT P.* " +
     "FROM productos P " +
     "JOIN duenios D ON P.duenio = D.identificador " +
     "WHERE D.identificador = ?1 AND P.aprobado = 'no'", nativeQuery = true)
-    List<Product> findUnapprovedProducts(int ownerId);
+    List<Product> findUnapprovedProducts(int ownerId);*/
+    List<Product> findByOwnerIdAndApproved(int ownerId, Admited approved);
+    /*
+    @Query(value = "SELECT COUNT(*) AS cant_prod " +
+        "FROM productos " +
+        "WHERE DUENIO = ?1 AND aprobado = 'si'", nativeQuery = true)
+    long countByPublished(int clientId);
+    */
+    long countByOwnerIdAndApproved(int ownerId, Admited approved);
 }

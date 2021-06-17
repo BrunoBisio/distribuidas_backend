@@ -19,7 +19,7 @@ public class AuctionRegistryServiceImpl implements IAuctionRegistryService {
 
     @Override
     public List<AuctionRegistryDto> getBoughtProducts(int clientId) {
-        return arRepository.findbyClientId(clientId).stream()
+        return arRepository.findByClientId(clientId).stream()
             .map(AuctionRegistryMapper::toDto).collect(Collectors.toList());
     }
     
