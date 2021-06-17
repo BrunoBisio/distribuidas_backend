@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
-public class BidDetailDto {
+public class AuctionsWonDto {
     private String auctionName;
     private String productName;
-    private Date bidDate;
+    private String currency;
     private BigDecimal value;
-    private String winner;
+    private Date auctionDate;
 }

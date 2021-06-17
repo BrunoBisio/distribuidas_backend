@@ -6,13 +6,21 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import distribuidas.backend.dtos.BidDetailDto;
+import distribuidas.backend.dtos.AuctionsWonDto;
+import distribuidas.backend.dtos.BidsCreatedDto;
 import distribuidas.backend.dtos.ParticipatedAuctionDto;
+import distribuidas.backend.dtos.PublishedProductsDto;
 import distribuidas.backend.enums.Admited;
+import distribuidas.backend.mappers.AuctionsWonMapper;
 import distribuidas.backend.mappers.BidDetailMapper;
 import distribuidas.backend.mappers.ParticipatedAuctionMapper;
+import distribuidas.backend.mappers.PublishedProductsMapper;
+import distribuidas.backend.models.AuctionRegistry;
+import distribuidas.backend.models.CatalogItem;
 import distribuidas.backend.repositories.AssistantRepository;
+import distribuidas.backend.repositories.AuctionRegistryRepository;
 import distribuidas.backend.repositories.BidRepository;
+import distribuidas.backend.repositories.CatalogItemRepository;
 import distribuidas.backend.repositories.ProductRepository;
 import distribuidas.backend.services.ISummaryService;
 
@@ -25,6 +33,10 @@ public class SummaryServiceImpl implements ISummaryService {
     private AssistantRepository assistantRepository;
     @Autowired
     private BidRepository bidRepository;
+    @Autowired
+    private AuctionRegistryRepository arRepository;
+    @Autowired
+    private CatalogItemRepository ciRepository;
 
     @Override
     public long getAuctionedAuctions(int clientId) {
@@ -47,15 +59,31 @@ public class SummaryServiceImpl implements ISummaryService {
     }
 
     @Override
-    public List<ParticipatedAuctionDto> getParticipatedAuctionsDetails(int clientId) {
+    public List<ParticipatedAuctionDto> getAuctionedAuctionsDetails(int clientId) {
         return bidRepository.findByAssistantClientId(clientId).stream()
             .map(ParticipatedAuctionMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<BidDetailDto> getBidCreatedDetails(int clientId) {
+    public List<BidsCreatedDto> getBidsCreatedDetails(int clientId) {
         return bidRepository.findByAssistantClientId(clientId).stream()
             .map(BidDetailMapper::toDto).collect(Collectors.toList());
     }
-    
+
+    @Override
+    public List<AuctionsWonDto> getAuctionsWonDetails(int clientId) {
+        return arRepository.findByClientId(clientId).stream()
+            .map(AuctionsWonMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PublishedProductsDto> getProductsPublishedDetails(int clientId) {
+        List<CatalogItem> cis = ciRepository.findByProductOwnerIdAndProductApproved(clientId, Admited.si);
+        List<AuctionRegistry> ars = arRepository.findByClientIdAndProductIn(clientId, 
+            cis.stream().map(CatalogItem::getProduct).collect(Collectors.toList()));
+        return cis.stream().map((ci) -> {
+            return PublishedProductsMapper.toDto(ci, 
+                ars.stream().filter((ar) -> { return ar.getProduct().getId() == ci.getProduct().getId(); }).findFirst().get() );
+        }).collect(Collectors.toList());
+    }
 }

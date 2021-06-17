@@ -1,10 +1,16 @@
 package distribuidas.backend.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import distribuidas.backend.dtos.AuctionsWonDto;
+import distribuidas.backend.dtos.BidsCreatedDto;
+import distribuidas.backend.dtos.ParticipatedAuctionDto;
+import distribuidas.backend.dtos.PublishedProductsDto;
 import distribuidas.backend.security.Context;
 import distribuidas.backend.services.ISummaryService;
 
@@ -29,6 +35,16 @@ public class SummaryController {
     // subastas en las que publico
     @GetMapping("/products/published")
     public long getProductsPublished() { return service.getProductsPublished(Context.getPrincipalId()); }
-
-
+    
+    @GetMapping("/auctions/assisted/details")
+    public List<ParticipatedAuctionDto> getAuctionedAuctionsDetails() { return service.getAuctionedAuctionsDetails(Context.getPrincipalId()); }
+    
+    @GetMapping("/bids/details")
+    public List<BidsCreatedDto> getBidsCreatedDetails() { return service.getBidsCreatedDetails(Context.getPrincipalId()); }
+    
+    @GetMapping("/auction/won/details")
+    public List<AuctionsWonDto> getAuctionsWonDetails() { return service.getAuctionsWonDetails(Context.getPrincipalId()); }
+    
+    @GetMapping("/products/published/details")
+    public List<PublishedProductsDto> getProductsPublishedDetails() { return service.getProductsPublishedDetails(Context.getPrincipalId()); }
 }

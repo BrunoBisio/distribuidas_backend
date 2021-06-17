@@ -14,4 +14,13 @@ public interface CatalogItemRepository extends JpaRepository<CatalogItem, Intege
     // JOIN itemsCatalogo IC ON P.identificador = IC.producto
     // WHERE D.identificador = ?1 AND IC.subastado = 'si'
     List<CatalogItem> findByProductOwnerIdAndAuctioned(int ownerId, Admited auctioned);
+    /*
+        SELECT nombreDeProducto, precioBase, rs.importe, ic.comision, rs.comision
+        FROM productos p
+        JOIN itemsCatalogo ic ON ic.producto = p.identificador
+        JOIN catalogos c ON c.identificador = ic.catalogo
+        JOIN registroDeSubasta rs ON rs.subasta = c.subasta
+        WHERE p.duenio = ?1 AND aprobado = 'si';
+    */
+    List<CatalogItem> findByProductOwnerIdAndProductApproved(int ownerId, Admited approved);
 }

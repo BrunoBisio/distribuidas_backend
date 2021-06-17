@@ -1,12 +1,12 @@
 package distribuidas.backend.mappers;
 
-import distribuidas.backend.dtos.BidDetailDto;
+import distribuidas.backend.dtos.BidsCreatedDto;
 import distribuidas.backend.models.Bid;
 
 public class BidDetailMapper {
     
-    public static BidDetailDto toDto(Bid bid) {
-        BidDetailDto dto = new BidDetailDto();
+    public static BidsCreatedDto toDto(Bid bid) {
+        BidsCreatedDto dto = new BidsCreatedDto();
         dto.setAuctionName(bid.getItem().getCatalog().getAuction().getName());
         dto.setProductName(bid.getItem().getProduct().getName());
         dto.setValue(bid.getAmmount());
