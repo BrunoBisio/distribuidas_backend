@@ -5,9 +5,8 @@ import java.util.List;
 import distribuidas.backend.dtos.ProductDto;
 
 public interface IProductService {
-
-    List<ProductDto> getSoldProducts(int clientId);
-    List<ProductDto> getActiveAuctionProducts(int clientId);
-    List<ProductDto> getPendingAuctionProducts(int clientId);
-    List<ProductDto> getUnapprovedProducts(int clientId);
+    public List<ProductDto> getSoldProducts(int clientId);
+    public List<ProductDto> getActiveAuctionProducts(int clientId);
+    public List<ProductDto> getPendingAuctionProducts(int clientId);
+    public List<ProductDto> getUnapprovedProducts(int clientId);
 }

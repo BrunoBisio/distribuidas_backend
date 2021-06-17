@@ -1,12 +1,15 @@
 package distribuidas.backend.services;
 
+import java.util.List;
+
+import distribuidas.backend.dtos.BidDetailDto;
+import distribuidas.backend.dtos.ParticipatedAuctionDto;
+
 public interface ISummaryService {
-
-    long getAuctionedAuctions(int clientId);
-    
-    long getBidsCreated(int clientId);
-
-    long getAuctionsWon(int clientId);
-
-    long getProductsPublished(int clientId);
+    public long getAuctionedAuctions(int clientId);
+    public long getBidsCreated(int clientId);
+    public long getAuctionsWon(int clientId);
+    public long getProductsPublished(int clientId);
+    public List<ParticipatedAuctionDto> getParticipatedAuctionsDetails(int clientId);
+    public List<BidDetailDto> getBidCreatedDetails(int clientId);
 }

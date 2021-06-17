@@ -30,26 +30,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
         "WHERE D.identificador = ?1 AND S.estado = 'cerrada' AND IC.subastado = 'no'", nativeQuery = true)
     List<Product> findPendingAuctionProducts(int ownerId);
 
-    // PRODUCTOS SUBASTADOS
-    @Query(value = "SELECT P.* " +
-    "FROM productos P " +
-    "JOIN duenios D ON P.duenio = D.identificador " +
-    "JOIN itemsCatalogo IC ON P.identificador = IC.producto " +
-    "WHERE D.identificador = ?1 AND IC.subastado = 'si'", nativeQuery = true)
-    List<Product> findSoldProducts(int ownerId);
-
     // PRODUCTOS NO ACEPTADOS
-    /*@Query(value = "SELECT P.* " +
-    "FROM productos P " +
-    "JOIN duenios D ON P.duenio = D.identificador " +
-    "WHERE D.identificador = ?1 AND P.aprobado = 'no'", nativeQuery = true)
-    List<Product> findUnapprovedProducts(int ownerId);*/
+    // SELECT P.* FROM productos P JOIN duenios D ON P.duenio = D.identificador 
+    // WHERE D.identificador = ?1 AND P.aprobado = 'no'
     List<Product> findByOwnerIdAndApproved(int ownerId, Admited approved);
-    /*
-    @Query(value = "SELECT COUNT(*) AS cant_prod " +
-        "FROM productos " +
-        "WHERE DUENIO = ?1 AND aprobado = 'si'", nativeQuery = true)
-    long countByPublished(int clientId);
-    */
+    
+    // SELECT COUNT(*) AS cant_prod FROM productos WHERE DUENIO = ?1 AND aprobado = 'si'
     long countByOwnerIdAndApproved(int ownerId, Admited approved);
 }

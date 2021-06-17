@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import distribuidas.backend.dtos.ProductDto;
 import distribuidas.backend.enums.Admited;
 import distribuidas.backend.mappers.ProductMapper;
+import distribuidas.backend.models.CatalogItem;
+import distribuidas.backend.repositories.CatalogItemRepository;
 import distribuidas.backend.repositories.ProductRepository;
 import distribuidas.backend.services.IProductService;
 
@@ -17,11 +19,13 @@ public class ProductServiceImpl implements IProductService {
 
     @Autowired
     private ProductRepository prodRepository;
+    @Autowired
+    private CatalogItemRepository ciRepository;
 
     @Override
     public List<ProductDto> getSoldProducts(int clientId) {
-        return prodRepository.findSoldProducts(clientId).stream()
-            .map(ProductMapper::toDto).collect(Collectors.toList());
+        return ciRepository.findByProductOwnerIdAndAuctioned(clientId, Admited.si).stream()
+            .map(CatalogItem::getProduct).map(ProductMapper::toDto).collect(Collectors.toList());
     }
 
     @Override

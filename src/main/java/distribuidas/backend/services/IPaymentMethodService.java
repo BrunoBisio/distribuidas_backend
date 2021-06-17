@@ -5,9 +5,7 @@ import java.util.List;
 import distribuidas.backend.dtos.PaymentMethodDto;
 
 public interface IPaymentMethodService {
-    List<PaymentMethodDto> getPaymentMethods(int clientId);
-
-    PaymentMethodDto createPaymentMethod(int principalId, PaymentMethodDto dto);
-
-    void deletePaymentMethod(int id);
+    public List<PaymentMethodDto> getPaymentMethods(int clientId);
+    public PaymentMethodDto createPaymentMethod(int principalId, PaymentMethodDto dto);
+    public void deletePaymentMethod(int id);
 }
