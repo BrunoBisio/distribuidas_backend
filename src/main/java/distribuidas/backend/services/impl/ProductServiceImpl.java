@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import distribuidas.backend.dtos.ProductDto;
 import distribuidas.backend.mappers.ProductMapper;
 import distribuidas.backend.repositories.ProductRepository;
 import distribuidas.backend.services.IProductService;
 
+@Service
 public class ProductServiceImpl implements IProductService {
 
     @Autowired

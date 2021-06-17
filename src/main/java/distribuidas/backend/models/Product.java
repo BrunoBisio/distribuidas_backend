@@ -73,7 +73,7 @@ public class Product {
     @Column(name = "moneda", nullable = false)
     private String currency;
     @Enumerated(EnumType.STRING)
-    @Column(name = "aprobado", columnDefinition = "default 'no'")
+    @Column(name = "aprobado", columnDefinition = "varchar(2) not null default 'no'")
     private Admited approved;
     @Transient
     private List<Photo> photos;

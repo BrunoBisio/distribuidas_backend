@@ -43,5 +43,4 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     "JOIN duenios D ON P.duenio = D.identificador " +
     "WHERE D.identificador = ?1 AND P.aprobado = 'no'", nativeQuery = true)
     List<Product> findUnapprovedProducts(int ownerId);
-    
 }
