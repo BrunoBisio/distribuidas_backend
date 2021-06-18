@@ -37,4 +37,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     
     // SELECT COUNT(*) AS cant_prod FROM productos WHERE DUENIO = ?1 AND aprobado = 'si'
     long countByOwnerIdAndApproved(int ownerId, Admited approved);
+
+    Product findByIdAndOwnerId(int id, int ownerId);
 }

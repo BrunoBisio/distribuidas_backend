@@ -9,4 +9,6 @@ public interface IProductService {
     public List<ProductDto> getActiveAuctionProducts(int clientId);
     public List<ProductDto> getPendingAuctionProducts(int clientId);
     public List<ProductDto> getUnapprovedProducts(int clientId);
+    public ProductDto createProduct(int clientId, ProductDto product);
+    public boolean deleteProduct(int principalId, int id);
 }
