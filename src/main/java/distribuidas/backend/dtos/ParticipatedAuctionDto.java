@@ -11,7 +11,6 @@ import lombok.Setter;
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class ParticipatedAuctionDto {
     private String auctionName;
-    private String productName;
     private String currency;
     private Category category;
     private Date auctionDate;

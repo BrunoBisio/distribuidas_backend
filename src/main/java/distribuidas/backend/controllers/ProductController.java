@@ -34,7 +34,7 @@ public class ProductController {
     @GetMapping("/unapproved")
     public List<ProductDto> getUnapprovedProducts() { return productService.getUnapprovedProducts(Context.getPrincipalId()); }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ProductDto createProduct(@RequestBody ProductDto product) { return productService.createProduct(Context.getPrincipalId(), product); }
 
     @DeleteMapping("/{id}")

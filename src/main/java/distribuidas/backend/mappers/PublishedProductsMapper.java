@@ -11,8 +11,10 @@ public class PublishedProductsMapper {
         dto.setProductName(ci.getProduct().getName());
         dto.setBasePrice(ci.getBasePrice());
         dto.setCommisionPercentage(ci.getCommission());
-        dto.setValue(ar.getAmmount());
-        dto.setCommisionValue(ar.getCommission());
+        if (ar != null) {
+            dto.setValue(ar.getAmmount());
+            dto.setCommisionValue(ar.getCommission());
+        }
         return dto;
     }
 }

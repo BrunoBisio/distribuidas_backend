@@ -60,7 +60,7 @@ public class SummaryServiceImpl implements ISummaryService {
 
     @Override
     public List<ParticipatedAuctionDto> getAuctionedAuctionsDetails(int clientId) {
-        return bidRepository.findByAssistantClientId(clientId).stream()
+        return assistantRepository.findByClientId(clientId).stream()
             .map(ParticipatedAuctionMapper::toDto).collect(Collectors.toList());
     }
 
@@ -79,11 +79,15 @@ public class SummaryServiceImpl implements ISummaryService {
     @Override
     public List<PublishedProductsDto> getProductsPublishedDetails(int clientId) {
         List<CatalogItem> cis = ciRepository.findByProductOwnerIdAndProductApproved(clientId, Admited.si);
-        List<AuctionRegistry> ars = arRepository.findByClientIdAndProductIn(clientId, 
+        List<AuctionRegistry> ars = arRepository.findByOwnerIdAndProductIn(clientId, 
             cis.stream().map(CatalogItem::getProduct).collect(Collectors.toList()));
         return cis.stream().map((ci) -> {
-            return PublishedProductsMapper.toDto(ci, 
-                ars.stream().filter((ar) -> { return ar.getProduct().getId() == ci.getProduct().getId(); }).findFirst().get() );
+            if (ars.stream().filter((ar) -> ar.getProduct().getId() == ci.getProduct().getId()).count() > 0) {
+                return PublishedProductsMapper.toDto(ci, 
+                    ars.stream().filter((ar) -> { return ar.getProduct().getId() == ci.getProduct().getId(); }).findFirst().get() );
+            } else {
+                return PublishedProductsMapper.toDto(ci, null);
+            }
         }).collect(Collectors.toList());
     }
 }

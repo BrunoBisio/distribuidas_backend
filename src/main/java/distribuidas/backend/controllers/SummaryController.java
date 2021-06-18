@@ -15,36 +15,36 @@ import distribuidas.backend.security.Context;
 import distribuidas.backend.services.ISummaryService;
 
 @RestController
-@RequestMapping("summary")
+@RequestMapping("stats")
 public class SummaryController {
     @Autowired
     private ISummaryService service;
     
     // subastas en las que participo
-    @GetMapping("/auction/assisted")
+    @GetMapping("/auctions/assisted")
     public long getAuctionedAuctions() { return service.getAuctionedAuctions(Context.getPrincipalId()); }
-
+    
+    @GetMapping("/auctions/assisted/details")
+    public List<ParticipatedAuctionDto> getAuctionedAuctionsDetails() { return service.getAuctionedAuctionsDetails(Context.getPrincipalId()); }
+    
     // subastas en las que gano
-    @GetMapping("/auction/won")
+    @GetMapping("/auctions/won")
     public long getAuctionsWon() { return service.getAuctionsWon(Context.getPrincipalId()); }
+
+    @GetMapping("/auctions/won/details")
+    public List<AuctionsWonDto> getAuctionsWonDetails() { return service.getAuctionsWonDetails(Context.getPrincipalId()); }
 
     // subastas en las que oferto
     @GetMapping("/bids")
     public long getBidsCreated() { return service.getBidsCreated(Context.getPrincipalId()); }
 
-    // subastas en las que publico
-    @GetMapping("/products/published")
-    public long getProductsPublished() { return service.getProductsPublished(Context.getPrincipalId()); }
-    
-    @GetMapping("/auctions/assisted/details")
-    public List<ParticipatedAuctionDto> getAuctionedAuctionsDetails() { return service.getAuctionedAuctionsDetails(Context.getPrincipalId()); }
-    
     @GetMapping("/bids/details")
     public List<BidsCreatedDto> getBidsCreatedDetails() { return service.getBidsCreatedDetails(Context.getPrincipalId()); }
     
-    @GetMapping("/auction/won/details")
-    public List<AuctionsWonDto> getAuctionsWonDetails() { return service.getAuctionsWonDetails(Context.getPrincipalId()); }
-    
+    // subastas en las que publico
+    @GetMapping("/products/published")
+    public long getProductsPublished() { return service.getProductsPublished(Context.getPrincipalId()); }
+
     @GetMapping("/products/published/details")
     public List<PublishedProductsDto> getProductsPublishedDetails() { return service.getProductsPublishedDetails(Context.getPrincipalId()); }
 }

@@ -10,4 +10,5 @@ import distribuidas.backend.models.Product;
 public interface AuctionRegistryRepository extends JpaRepository<AuctionRegistry, Integer> {
     List<AuctionRegistry> findByClientId(int clientId);
     List<AuctionRegistry> findByClientIdAndProductIn(int clientId, List<Product> products);
+    List<AuctionRegistry> findByOwnerIdAndProductIn(int ownerId, List<Product> products);
 }

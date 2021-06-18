@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -60,10 +59,10 @@ public class Product {
     private String catalogDescription;
     @Column(name = "descripcionCompleta", columnDefinition = "varchar(300) not null")
     private String fullDescription;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "revisor", nullable = false)
     private Employee employee;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "duenio", nullable = false)
     private Owner owner;
     @Column(name = "nombreDeProducto", nullable = false)

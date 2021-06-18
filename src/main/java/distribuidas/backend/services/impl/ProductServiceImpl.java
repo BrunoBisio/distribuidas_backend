@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 
 import distribuidas.backend.dtos.ProductDto;
 import distribuidas.backend.enums.Admited;
+import distribuidas.backend.enums.State;
 import distribuidas.backend.mappers.ProductMapper;
+import distribuidas.backend.models.AuctionRegistry;
 import distribuidas.backend.models.CatalogItem;
 import distribuidas.backend.models.Client;
 import distribuidas.backend.models.Owner;
 import distribuidas.backend.models.Product;
+import distribuidas.backend.repositories.AuctionRegistryRepository;
 import distribuidas.backend.repositories.CatalogItemRepository;
 import distribuidas.backend.repositories.ClientRepository;
 import distribuidas.backend.repositories.EmployeeRepository;
@@ -34,23 +37,31 @@ public class ProductServiceImpl implements IProductService {
     private OwnerRepository ownerRepository;
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private AuctionRegistryRepository arRepository;
 
     @Override
     public List<ProductDto> getSoldProducts(int clientId) {
-        return ciRepository.findByProductOwnerIdAndAuctioned(clientId, Admited.si).stream()
-            .map(CatalogItem::getProduct).map(ProductMapper::toDto).collect(Collectors.toList());
+        List<CatalogItem> cis = ciRepository.findByProductOwnerIdAndAuctioned(clientId, Admited.si);
+        List<AuctionRegistry> ars = arRepository.findByOwnerIdAndProductIn(clientId, 
+            cis.stream().map(CatalogItem::getProduct).collect(Collectors.toList()));
+        return cis.stream().map((ci) -> {
+            return ProductMapper.toSoldDto(getProductWithPrice(ci),
+                ars.stream().filter((ar) -> { return ar.getProduct().getId() == ci.getProduct().getId(); }).findFirst().get() );
+        }).collect(Collectors.toList());
     }
 
     @Override
     public List<ProductDto> getActiveAuctionProducts(int clientId) {
-        return prodRepository.findActiveAuctionProducts(clientId).stream()
-            .map(ProductMapper::toDto).collect(Collectors.toList());
+        return ciRepository.findByProductOwnerIdAndCatalogAuctionState(clientId, State.abierta).stream()
+            .map(ProductServiceImpl::getProductWithPrice).map(ProductMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
     public List<ProductDto> getPendingAuctionProducts(int clientId) {
-        return prodRepository.findPendingAuctionProducts(clientId).stream()
-            .map(ProductMapper::toDto).collect(Collectors.toList());
+        return ciRepository.findPendingAuctionProducts(clientId).stream()
+            .map(ProductServiceImpl::getProductWithPrice).map(ProductMapper::toDto)
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -63,14 +74,15 @@ public class ProductServiceImpl implements IProductService {
     public ProductDto createProduct(int clientId, ProductDto product) {
         Product p = new Product();
         p.setCreated(new Date());
-        p.setAvailable(Admited.no);
-        p.setFullDescription(product.getDescription());
+        p.setAvailable(Admited.si);
+        p.setFullDescription(product.getFullDescription());
+        p.setCatalogDescription(product.getDescription());
         p.setEmployee(employeeRepository.findById(3).get());
-        Owner owner = ownerRepository.findById(clientId).get();
-        if (owner == null) {
-            owner = createOwner(clientId);
+        if (ownerRepository.existsById(clientId)) {
+            p.setOwner(ownerRepository.findById(clientId).get());
+        } else {
+            p.setOwner(createOwner(clientId));
         }
-        p.setOwner(owner);
         p.setName(product.getName());
         p.setDescription(product.getDescription());
         p.setCurrency("ARS");
@@ -100,6 +112,11 @@ public class ProductServiceImpl implements IProductService {
         
         prodRepository.delete(prod);
         return true;
+    }
+
+    private static Product getProductWithPrice(CatalogItem ci) {
+        ci.getProduct().setPrice(ci.getBasePrice());
+        return ci.getProduct();
     }
     
 }
