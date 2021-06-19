@@ -1,6 +1,7 @@
 package distribuidas.backend.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +19,7 @@ public class BidController {
     private IBidService bidService;
 
     @PostMapping("/auction/{auctionId}/product/{productId}/bid")
-    public BidDto index(@PathVariable int auctionId, @PathVariable int productId, @RequestBody BidDto dto) {
-        // Context.getPrincipalId()
+    public BidDto index(@PathVariable int auctionId, @PathVariable int productId, @RequestBody BidDto dto) throws Exception {
         return bidService.createBid(auctionId, productId, dto, Context.getPrincipalId());
     }
 }
