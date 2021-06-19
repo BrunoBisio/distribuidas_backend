@@ -1,6 +1,5 @@
 package distribuidas.backend.models;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -52,7 +51,7 @@ public class PaymentMethod {
     private String cvv;
     @Column(name = "fechaVencimiento", length = 5)
     private String expirationDate;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente")
     private Client client;
     @Enumerated(EnumType.STRING)

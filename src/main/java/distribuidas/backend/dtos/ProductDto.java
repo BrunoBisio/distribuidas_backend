@@ -18,4 +18,6 @@ public class ProductDto {
     private List<String> photos;
     private BigDecimal initialPrice;
     private String fullDescription;
+    private BigDecimal commisionValue;
+    private BigDecimal soldPrice;
 }

@@ -25,7 +25,6 @@ public class Owner {
         go
     */
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "identificador", nullable = false)
     private int id;
     @OneToOne
