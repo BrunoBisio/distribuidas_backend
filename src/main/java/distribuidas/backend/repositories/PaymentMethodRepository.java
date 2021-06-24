@@ -9,4 +9,5 @@ import distribuidas.backend.models.PaymentMethod;
 
 public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Integer>{
     List<PaymentMethod> findByClientIdAndStatus(int clientId, Status status);
+    boolean existsByClientId(int clientId);
 }
