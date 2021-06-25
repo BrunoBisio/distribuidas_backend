@@ -36,4 +36,6 @@ public interface CatalogItemRepository extends JpaRepository<CatalogItem, Intege
         "JOIN subastas S ON  C.subasta = S.identificador " +
         "WHERE D.identificador = ?1 AND S.estado = 'cerrada' AND IC.subastado = 'no'", nativeQuery = true)
     List<CatalogItem> findPendingAuctionProducts(int ownerId);
+
+    CatalogItem findFirstByCatalogAuctionIdAndAuctionedOrderByIdAsc(int auctionId, Admited auctioned);
 }

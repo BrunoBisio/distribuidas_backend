@@ -8,7 +8,13 @@ import org.springframework.stereotype.Service;
 
 import distribuidas.backend.dtos.AuctionRegistryDto;
 import distribuidas.backend.mappers.AuctionRegistryMapper;
+import distribuidas.backend.models.AuctionRegistry;
+import distribuidas.backend.models.Bid;
+import distribuidas.backend.models.CatalogItem;
 import distribuidas.backend.repositories.AuctionRegistryRepository;
+import distribuidas.backend.repositories.BidRepository;
+import distribuidas.backend.repositories.CatalogItemRepository;
+import distribuidas.backend.repositories.PaymentMethodRepository;
 import distribuidas.backend.services.IAuctionRegistryService;
 
 @Service
@@ -16,11 +22,41 @@ public class AuctionRegistryServiceImpl implements IAuctionRegistryService {
 
     @Autowired
     private AuctionRegistryRepository arRepository;
+    @Autowired
+    private CatalogItemRepository catalogItemRepository;
+    @Autowired
+    private PaymentMethodRepository paymentMethodRepository;
+    @Autowired
+    private BidRepository bidRepository;
 
     @Override
     public List<AuctionRegistryDto> getBoughtProducts(int clientId) {
         return arRepository.findByClientId(clientId).stream()
             .map(AuctionRegistryMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean create(int itemId, int paymentId, int clientId) throws Exception {
+        try {
+            CatalogItem item = catalogItemRepository.findById(itemId).get();
+            Bid bid = bidRepository.findFirstByItemIdOrderByIdDesc(itemId);
+            if (bid.getAssistant().getClient().getId() != clientId) {
+                return false;
+            }
+
+            AuctionRegistry ar = new AuctionRegistry();
+            ar.setAmmount(bid.getAmmount());
+            ar.setClient(bid.getAssistant().getClient());
+            ar.setCommission(item.getCommission().multiply(bid.getAmmount()));
+            ar.setAuction(item.getCatalog().getAuction());
+            ar.setOwner(item.getProduct().getOwner());
+            ar.setProduct(item.getProduct());
+            ar.setPaymentMethod(paymentMethodRepository.findById(paymentId).get());
+            arRepository.save(ar);
+        } catch (Exception ex) {
+            throw new Exception("Ocurrio un problema con el registro de tu pago! Pronto nos comunicaremos contigo para arreglar la venta");
+        }
+        return true;
     }
     
 }

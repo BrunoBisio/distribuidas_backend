@@ -9,7 +9,7 @@ import distribuidas.backend.models.Product;
 
 public class ProductMapper {
 
-    public static ProductDto toDto(Product product){
+    public static ProductDto toDto(Product product) {
         ProductDto  dto = new ProductDto();
         dto.setId(product.getId());
         dto.setAvailable(product.getAvailable());
@@ -28,5 +28,6 @@ public class ProductMapper {
         dto.setCommisionValue(ar.getCommission());
         return dto;
     }
+    
 }
 

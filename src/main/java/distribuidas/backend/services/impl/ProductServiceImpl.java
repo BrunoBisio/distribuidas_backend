@@ -114,7 +114,7 @@ public class ProductServiceImpl implements IProductService {
         return true;
     }
 
-    private static Product getProductWithPrice(CatalogItem ci) {
+    public static Product getProductWithPrice(CatalogItem ci) {
         ci.getProduct().setPrice(ci.getBasePrice());
         return ci.getProduct();
     }

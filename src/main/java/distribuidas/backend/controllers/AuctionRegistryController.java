@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,4 +21,9 @@ public class AuctionRegistryController {
 
     @GetMapping("/item/bought")
     public List<AuctionRegistryDto> getBoughtProducts() { return service.getBoughtProducts(Context.getPrincipalId()); }
+
+    @PostMapping("/item/{itemId}/pay/{paymentId}")
+    public boolean createAuction(@PathVariable int itemId, @PathVariable int paymentId) throws Exception {
+        return service.create(itemId, paymentId, Context.getPrincipalId());
+    }
 }
