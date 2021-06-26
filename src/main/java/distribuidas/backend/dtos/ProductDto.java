@@ -21,4 +21,5 @@ public class ProductDto {
     private BigDecimal commisionValue;
     private BigDecimal soldPrice;
     private String prodState;
+    private long timeBeforeClose;
 }

@@ -17,7 +17,7 @@ import distribuidas.backend.services.ICatalogItemService;
 @Service
 public class CatalogItemServiceImpl implements ICatalogItemService {
 
-    private final long MAX_TIME = 5; // tiempo en milisegundos
+    private final long MAX_TIME = 300000; // tiempo en milisegundos
     
     @Autowired
     private CatalogItemRepository catalogItemRepository;
@@ -49,21 +49,26 @@ public class CatalogItemServiceImpl implements ICatalogItemService {
          * Notas:
          *  - La busqueda de itemCatalogo debe ser: obtener el primero, no vendido para la subasta
         */
+        ProductDto dto = null;
         CatalogItem item = catalogItemRepository.findFirstByCatalogAuctionIdAndAuctionedOrderByIdAsc(auctionId, Admited.no);
         Bid latestBid = bidRepository.findFirstByItemIdOrderByIdDesc(item.getId());
         if (latestBid != null) {
-            if (latestBid.getCreated().getTime() - new Date().getTime() >= MAX_TIME) {
+            long idleTime = new Date().getTime() - latestBid.getCreated().getTime();
+            if (idleTime >= MAX_TIME) {
                 item.setAuctioned(Admited.si);
                 catalogItemRepository.save(item);
                 item = catalogItemRepository.findFirstByCatalogAuctionIdAndAuctionedOrderByIdAsc(auctionId, Admited.no);
             }
-
+            
             item.getProduct().setPrice(latestBid.getAmmount());
+            dto = ProductMapper.toDto(item.getProduct());
+            dto.setTimeBeforeClose(MAX_TIME - idleTime);
         } else {
             item.getProduct().setPrice(item.getBasePrice());
+            dto = ProductMapper.toDto(item.getProduct());
         }
-        
-        return ProductMapper.toDto(item.getProduct());
+
+        return dto;
     }
     
 }
