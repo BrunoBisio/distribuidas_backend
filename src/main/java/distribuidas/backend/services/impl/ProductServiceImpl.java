@@ -111,9 +111,12 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public boolean deleteProduct(int clientId, int id) {
         Product prod = prodRepository.findByIdAndOwnerId(id, clientId);
-        // si el producto ya a sido aprovado no puede ser borrado.
-        if (prod.getApproved().ordinal() == Admited.si.ordinal())
-            return false;
+        // si el producto ya a sido se debe validar que no se haya agregado a alguna subasta para que pueda ser borrado.
+        if (prod.getApproved().ordinal() == Admited.si.ordinal()) {
+            if (ciRepository.existsByProductId(prod.getId())) {
+                return false;
+            }
+        }
         
         prodRepository.delete(prod);
         return true;
