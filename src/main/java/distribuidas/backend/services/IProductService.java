@@ -11,4 +11,5 @@ public interface IProductService {
     public List<ProductDto> getUnapprovedProducts(int clientId);
     public ProductDto createProduct(int clientId, ProductDto product);
     public boolean deleteProduct(int principalId, int id);
+    public ProductDto getProductById(int id);
 }

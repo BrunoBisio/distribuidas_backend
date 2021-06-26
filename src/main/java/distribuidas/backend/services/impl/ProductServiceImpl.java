@@ -114,9 +114,19 @@ public class ProductServiceImpl implements IProductService {
         return true;
     }
 
+    @Override
+    public ProductDto getProductById(int id) {
+        Product prod = prodRepository.findById(id).get();
+        if (prod != null)
+            return ProductMapper.toDto(prod);
+        return null;
+    }
+
     public static Product getProductWithPrice(CatalogItem ci) {
         ci.getProduct().setPrice(ci.getBasePrice());
         return ci.getProduct();
     }
+
+    
     
 }

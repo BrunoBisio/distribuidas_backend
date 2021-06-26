@@ -39,4 +39,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public boolean deleteProduct(@PathVariable int id) { return productService.deleteProduct(Context.getPrincipalId(), id); }
+
+    @GetMapping("/{id}")
+    public ProductDto getProductById(@PathVariable int id) { return productService.getProductById(id); }
 }
