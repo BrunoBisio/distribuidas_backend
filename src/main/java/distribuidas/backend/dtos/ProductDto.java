@@ -20,4 +20,5 @@ public class ProductDto {
     private String fullDescription;
     private BigDecimal commisionValue;
     private BigDecimal soldPrice;
+    private String prodState;
 }

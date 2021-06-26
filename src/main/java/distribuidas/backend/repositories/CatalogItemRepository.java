@@ -38,4 +38,6 @@ public interface CatalogItemRepository extends JpaRepository<CatalogItem, Intege
     List<CatalogItem> findPendingAuctionProducts(int ownerId);
 
     CatalogItem findFirstByCatalogAuctionIdAndAuctionedOrderByIdAsc(int auctionId, Admited auctioned);
+
+    boolean existsByProductId(int productId);
 }

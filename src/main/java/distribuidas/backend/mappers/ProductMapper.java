@@ -10,7 +10,7 @@ import distribuidas.backend.models.Product;
 public class ProductMapper {
 
     public static ProductDto toDto(Product product) {
-        ProductDto  dto = new ProductDto();
+        ProductDto dto = new ProductDto();
         dto.setId(product.getId());
         dto.setAvailable(product.getAvailable());
         dto.setName(product.getName());
@@ -19,6 +19,18 @@ public class ProductMapper {
             dto.setPhotos(product.getPhotos().stream().map(Photo::getPhoto).collect(Collectors.toList()));
         dto.setInitialPrice(product.getPrice());
         dto.setFullDescription(product.getFullDescription());
+        return dto;
+    }
+
+    public static ProductDto toPendingDto(Product product) {
+        ProductDto dto = toDto(product);
+        dto.setProdState("pending");
+        return dto;
+    }
+
+    public static ProductDto toDeletableDto(Product product) {
+        ProductDto dto = toDto(product);
+        dto.setProdState("pending and deletable");
         return dto;
     }
 

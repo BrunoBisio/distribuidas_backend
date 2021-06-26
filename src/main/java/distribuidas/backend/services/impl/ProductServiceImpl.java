@@ -3,6 +3,7 @@ package distribuidas.backend.services.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,9 +60,13 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public List<ProductDto> getPendingAuctionProducts(int clientId) {
-        return ciRepository.findPendingAuctionProducts(clientId).stream()
-            .map(ProductServiceImpl::getProductWithPrice).map(ProductMapper::toDto)
-            .collect(Collectors.toList());
+        Stream<ProductDto> itemsWithAuction = ciRepository.findPendingAuctionProducts(clientId).stream()
+            .map(ProductServiceImpl::getProductWithPrice).map(ProductMapper::toPendingDto);
+        Stream<ProductDto> itemsWithoutAuction = prodRepository.findByOwnerIdAndApproved(clientId, Admited.si).stream()
+            .filter((p) -> {
+                return !ciRepository.existsByProductId(p.getId());
+            }).map(ProductMapper::toDeletableDto);
+        return Stream.concat(itemsWithAuction, itemsWithoutAuction).collect(Collectors.toList());
     }
 
     @Override
