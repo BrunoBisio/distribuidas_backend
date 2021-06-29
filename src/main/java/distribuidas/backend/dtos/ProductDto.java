@@ -22,4 +22,5 @@ public class ProductDto {
     private BigDecimal soldPrice;
     private String prodState;
     private long timeBeforeClose;
+    private BidDto latestBid;
 }

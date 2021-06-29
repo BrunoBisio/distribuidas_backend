@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import distribuidas.backend.dtos.ProductDto;
 import distribuidas.backend.enums.Admited;
+import distribuidas.backend.mappers.BidMapper;
 import distribuidas.backend.mappers.ProductMapper;
 import distribuidas.backend.models.Bid;
 import distribuidas.backend.models.CatalogItem;
@@ -56,13 +57,16 @@ public class CatalogItemServiceImpl implements ICatalogItemService {
             long idleTime = new Date().getTime() - latestBid.getCreated().getTime();
             if (idleTime >= MAX_TIME) {
                 item.setAuctioned(Admited.si);
+                latestBid.setWinner(Admited.si);
                 catalogItemRepository.save(item);
+                bidRepository.save(latestBid);
                 item = catalogItemRepository.findFirstByCatalogAuctionIdAndAuctionedOrderByIdAsc(auctionId, Admited.no);
             }
             
             item.getProduct().setPrice(latestBid.getAmmount());
             dto = ProductMapper.toDto(item.getProduct());
             dto.setTimeBeforeClose(MAX_TIME - idleTime);
+            dto.setLatestBid(BidMapper.toDto(latestBid));
         } else {
             item.getProduct().setPrice(item.getBasePrice());
             dto = ProductMapper.toDto(item.getProduct());

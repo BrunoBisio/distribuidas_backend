@@ -3,7 +3,6 @@ package distribuidas.backend.mappers;
 import java.util.Date;
 
 import distribuidas.backend.dtos.BidDto;
-import distribuidas.backend.enums.Admited;
 import distribuidas.backend.models.Assistant;
 import distribuidas.backend.models.Bid;
 import distribuidas.backend.models.CatalogItem;
@@ -14,16 +13,16 @@ public class BidMapper {
         BidDto dto = new BidDto();
         dto.setAmmount(bid.getAmmount());
         dto.setCreated(bid.getCreated());
+        dto.setId(bid.getAssistant().getAssistantId());
         return dto;
     }
 
-    public static Bid fromDto(BidDto dto, CatalogItem item, Assistant assistant, Admited admited) {
+    public static Bid fromDto(BidDto dto, CatalogItem item, Assistant assistant) {
         Bid bid = new Bid();
         bid.setAmmount(dto.getAmmount());
         bid.setCreated(new Date());
         bid.setItem(item);
         bid.setAssistant(assistant);
-        bid.setWinner(admited);
         return bid;
     }
 }

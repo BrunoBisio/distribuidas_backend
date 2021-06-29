@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import distribuidas.backend.dtos.BidDto;
-import distribuidas.backend.enums.Admited;
 import distribuidas.backend.enums.Category;
 import distribuidas.backend.mappers.BidMapper;
 import distribuidas.backend.models.Assistant;
@@ -78,14 +77,9 @@ public class BidService implements IBidService {
             throw new Exception("El monto ofertado es superior al permitido.");
         }
             
-        Bid bid = BidMapper.fromDto(dto, item, assistant, Admited.si);
+        Bid bid = BidMapper.fromDto(dto, item, assistant);
         bid = bidRepository.save(bid);
         savedBidDto = BidMapper.toDto(bid);
-        // actualizar pujo previo
-        if (latestBid != null) {
-            latestBid.setWinner(Admited.no);
-            bidRepository.save(latestBid);
-        }
 
         return savedBidDto;
     }
