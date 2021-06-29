@@ -40,19 +40,18 @@ public class BidService implements IBidService {
 
     @Override
     public BidDto createBid(int auctionId, int productId, BidDto dto, int clientId) throws Exception {
+        // revisar que el cliente tenga al menos 1 metodo de pago registrado
+        if (!paymentMethodRepository.existsByClientId(clientId)) {
+            throw new Exception("Ups! No podes pujar hasta que hayas registrado al menos un metodo de pago.");
+        }
         BidDto savedBidDto = null;
-        CatalogItem item = catalogItemRepository.findById(productId).get();
+        CatalogItem item = catalogItemRepository.findByProductId(productId);
         // revisar que el cliente no sea el dueño del producto
         if (isProductOwner(item, clientId)) {
             throw new Exception("Ups! No podes pujar por tus propios productos");
         }
         
         Client client = clientRepository.findById(clientId).get();
-        // revisar que el cliente tenga al menos 1 metodo de pago registrado
-        if (!paymentMethodRepository.existsByClientId(clientId)) {
-            throw new Exception("Ups! No podes pujar hasta que hayas registrado al menos un metodo de pago.");
-        }
-
         Auction auction = auctionRepository.findById(auctionId).get();
         // revisar que el cliente pertenezca a una categoria igual o mayor a la de la subasta
         if (client.getCategory().ordinal() < auction.getCategory().ordinal()) {
