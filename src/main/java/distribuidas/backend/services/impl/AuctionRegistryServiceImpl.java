@@ -41,7 +41,7 @@ public class AuctionRegistryServiceImpl implements IAuctionRegistryService {
         try {
             CatalogItem item = catalogItemRepository.findById(itemId).get();
             Bid bid = bidRepository.findFirstByItemIdOrderByIdDesc(itemId);
-            if (bid.getAssistant().getClient().getId() != clientId) {
+            if (bid == null || bid.getAssistant().getClient().getId() != clientId) {
                 return false;
             }
 
@@ -52,7 +52,7 @@ public class AuctionRegistryServiceImpl implements IAuctionRegistryService {
             ar.setAuction(item.getCatalog().getAuction());
             ar.setOwner(item.getProduct().getOwner());
             ar.setProduct(item.getProduct());
-            if (payment.getCardNumber().isEmpty()) {
+            if (!payment.getCardNumber().isEmpty()) {
                 ar.setPaymentMethod(paymentMethodRepository.findByCardNumber(payment.getCardNumber()));
             } else {
                 ar.setPaymentMethod(paymentMethodRepository.findByAccountNumber(payment.getAccountNumber()));

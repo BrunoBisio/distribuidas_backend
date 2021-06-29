@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import distribuidas.backend.enums.Admited;
@@ -64,6 +66,7 @@ public class Product {
     private Employee employee;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "duenio", nullable = false)
+    @LazyToOne(LazyToOneOption.NO_PROXY)
     private Owner owner;
     @Column(name = "nombreDeProducto", nullable = false)
     private String name;

@@ -91,5 +91,11 @@ public class CatalogItemServiceImpl implements ICatalogItemService {
 
         return dto;
     }
+
+    @Override
+    public CatalogItem getById(int id) {
+        return catalogItemRepository.findById(id).get();
+    }
+    
     
 }

@@ -2,7 +2,6 @@ package distribuidas.backend.models;
 
 import java.math.BigDecimal;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,6 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 
 import distribuidas.backend.enums.Admited;
 import lombok.Getter;
@@ -42,8 +44,9 @@ public class CatalogItem {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "identificador", nullable = false)
     private int id;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "catalogo", nullable = false)
+    @LazyToOne(LazyToOneOption.NO_PROXY)
     private Catalog catalog;
     @OneToOne
     @JoinColumn(name = "producto", nullable = false)
