@@ -1,5 +1,6 @@
 package distribuidas.backend.services.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,7 @@ public class AuctionRegistryServiceImpl implements IAuctionRegistryService {
             AuctionRegistry ar = new AuctionRegistry();
             ar.setAmmount(bid.getAmmount());
             ar.setClient(bid.getAssistant().getClient());
-            ar.setCommission(item.getCommission().multiply(bid.getAmmount()));
+            ar.setCommission(item.getCommission().multiply(bid.getAmmount()).divide(BigDecimal.valueOf(100)));
             ar.setAuction(item.getCatalog().getAuction());
             ar.setOwner(item.getProduct().getOwner());
             ar.setProduct(item.getProduct());
