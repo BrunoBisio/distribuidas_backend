@@ -13,6 +13,7 @@ import distribuidas.backend.models.Bid;
 import distribuidas.backend.models.CatalogItem;
 import distribuidas.backend.repositories.BidRepository;
 import distribuidas.backend.repositories.CatalogItemRepository;
+import distribuidas.backend.repositories.PhotoRepository;
 import distribuidas.backend.services.ICatalogItemService;
 
 @Service
@@ -24,6 +25,8 @@ public class CatalogItemServiceImpl implements ICatalogItemService {
     private CatalogItemRepository catalogItemRepository;
     @Autowired
     private BidRepository bidRepository;
+    @Autowired
+    private PhotoRepository photoRepository;
 
     @Override
     public ProductDto getByAuctionId(int auctionId) {
@@ -64,6 +67,7 @@ public class CatalogItemServiceImpl implements ICatalogItemService {
             }
             
             item.getProduct().setPrice(latestBid.getAmmount());
+            item.getProduct().setPhotos(photoRepository.findByProductId(item.getProduct().getId()));
             dto = ProductMapper.toDto(item.getProduct());
             dto.setTimeBeforeClose(MAX_TIME - idleTime);
             dto.setLatestBid(BidMapper.toDto(latestBid));
