@@ -60,7 +60,7 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 // /auction /auction/soon /auction/id
                         antMatchers("/auction/user").authenticated().
                         antMatchers("/auction", "/auction/soon", "/auction/{\\d+}").permitAll().
-                        antMatchers("/item/{\\d+}/pay/{\\d+}").permitAll().
+                        antMatchers("/auction/{\\d+}/item").permitAll().
                 anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to
                 // store user's state.
