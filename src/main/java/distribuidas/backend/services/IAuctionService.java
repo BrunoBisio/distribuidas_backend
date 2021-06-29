@@ -9,4 +9,5 @@ public interface IAuctionService {
     public AuctionDto getAuctionById(int id);
     public AuctionList getFututreAuctions();
     public AuctionList getFututreAuctionsForUser(int id);
+    public boolean closeAuction(int auctionId);
 }

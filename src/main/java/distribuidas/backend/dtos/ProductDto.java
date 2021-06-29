@@ -23,4 +23,5 @@ public class ProductDto {
     private String prodState;
     private long timeBeforeClose;
     private BidDto latestBid;
+    private boolean isAuctionOpen;
 }

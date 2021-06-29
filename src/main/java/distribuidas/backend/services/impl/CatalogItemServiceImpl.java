@@ -14,12 +14,13 @@ import distribuidas.backend.models.CatalogItem;
 import distribuidas.backend.repositories.BidRepository;
 import distribuidas.backend.repositories.CatalogItemRepository;
 import distribuidas.backend.repositories.PhotoRepository;
+import distribuidas.backend.services.IAuctionService;
 import distribuidas.backend.services.ICatalogItemService;
 
 @Service
 public class CatalogItemServiceImpl implements ICatalogItemService {
 
-    private final long MAX_TIME = 300000; // tiempo en milisegundos
+    private final long MAX_TIME = 60000; // tiempo en milisegundos
     
     @Autowired
     private CatalogItemRepository catalogItemRepository;
@@ -27,6 +28,8 @@ public class CatalogItemServiceImpl implements ICatalogItemService {
     private BidRepository bidRepository;
     @Autowired
     private PhotoRepository photoRepository;
+    @Autowired
+    private IAuctionService auctionService;
 
     @Override
     public ProductDto getByAuctionId(int auctionId) {
@@ -56,6 +59,7 @@ public class CatalogItemServiceImpl implements ICatalogItemService {
         ProductDto dto = null;
         CatalogItem item = catalogItemRepository.findFirstByCatalogAuctionIdAndAuctionedOrderByIdAsc(auctionId, Admited.no);
         Bid latestBid = bidRepository.findFirstByItemIdOrderByIdDesc(item.getId());
+        boolean isAuctionOpen = true;
         if (latestBid != null) {
             long idleTime = new Date().getTime() - latestBid.getCreated().getTime();
             if (idleTime >= MAX_TIME) {
@@ -64,17 +68,25 @@ public class CatalogItemServiceImpl implements ICatalogItemService {
                 catalogItemRepository.save(item);
                 bidRepository.save(latestBid);
                 item = catalogItemRepository.findFirstByCatalogAuctionIdAndAuctionedOrderByIdAsc(auctionId, Admited.no);
+                // si no quedan mas items se debe cerrar la subasta
+                if (item == null) {
+                    if (auctionService.closeAuction(auctionId)) {
+                        isAuctionOpen = false;
+                    }
+                }
             }
             
             item.getProduct().setPrice(latestBid.getAmmount());
-            item.getProduct().setPhotos(photoRepository.findByProductId(item.getProduct().getId()));    
+            item.getProduct().setPhotos(photoRepository.findByProductId(item.getProduct().getId()));
             dto = ProductMapper.toDto(item.getProduct());
             dto.setTimeBeforeClose(MAX_TIME - idleTime);
             dto.setLatestBid(BidMapper.toDto(latestBid));
+            dto.setAuctionOpen(isAuctionOpen);
         } else {
             item.getProduct().setPrice(item.getBasePrice());
             item.getProduct().setPhotos(photoRepository.findByProductId(item.getProduct().getId()));
             dto = ProductMapper.toDto(item.getProduct());
+            dto.setAuctionOpen(isAuctionOpen);
         }
 
         return dto;

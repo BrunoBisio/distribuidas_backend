@@ -102,4 +102,12 @@ public class AuctionServiceImpl implements IAuctionService {
         product.setPhotos(photoRepository.findByProductId(product.getId()));
         return product;
     }
+    
+    @Override
+    public boolean closeAuction(int auctionId) {
+        Auction auction = auctionRepository.findById(auctionId).get();
+        auction.setState(State.cerrada);
+        auctionRepository.save(auction);
+        return true;
+    }
 }

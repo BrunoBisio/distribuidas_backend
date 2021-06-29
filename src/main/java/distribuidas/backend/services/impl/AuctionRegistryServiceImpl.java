@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import distribuidas.backend.dtos.AuctionRegistryDto;
+import distribuidas.backend.dtos.PaymentMethodDto;
 import distribuidas.backend.mappers.AuctionRegistryMapper;
 import distribuidas.backend.models.AuctionRegistry;
 import distribuidas.backend.models.Bid;
@@ -36,7 +37,7 @@ public class AuctionRegistryServiceImpl implements IAuctionRegistryService {
     }
 
     @Override
-    public boolean create(int itemId, int paymentId, int clientId) throws Exception {
+    public boolean create(int itemId, PaymentMethodDto payment, int clientId) throws Exception {
         try {
             CatalogItem item = catalogItemRepository.findById(itemId).get();
             Bid bid = bidRepository.findFirstByItemIdOrderByIdDesc(itemId);
@@ -51,7 +52,12 @@ public class AuctionRegistryServiceImpl implements IAuctionRegistryService {
             ar.setAuction(item.getCatalog().getAuction());
             ar.setOwner(item.getProduct().getOwner());
             ar.setProduct(item.getProduct());
-            ar.setPaymentMethod(paymentMethodRepository.findById(paymentId).get());
+            if (payment.getCardNumber().isEmpty()) {
+                ar.setPaymentMethod(paymentMethodRepository.findByCardNumber(payment.getCardNumber()));
+            } else {
+                ar.setPaymentMethod(paymentMethodRepository.findByAccountNumber(payment.getAccountNumber()));
+            }
+            
             arRepository.save(ar);
         } catch (Exception ex) {
             throw new Exception("Ocurrio un problema con el registro de tu pago! Pronto nos comunicaremos contigo para arreglar la venta");
