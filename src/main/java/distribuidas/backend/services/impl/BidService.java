@@ -42,7 +42,7 @@ public class BidService implements IBidService {
     public BidDto createBid(int auctionId, int productId, BidDto dto, int clientId) throws Exception {
         // revisar que el cliente tenga al menos 1 metodo de pago registrado
         if (!paymentMethodRepository.existsByClientId(clientId)) {
-            throw new Exception("Ups! No podes pujar hasta que hayas registrado al menos un metodo de pago.");
+            throw new Exception("Ups! No podes pujar hasta que no hayas registrado al menos un metodo de pago.");
         }
         BidDto savedBidDto = null;
         CatalogItem item = catalogItemRepository.findByProductId(productId);
@@ -62,7 +62,7 @@ public class BidService implements IBidService {
         Bid latestBid = bidRepository.findFirstByItemIdOrderByIdDesc(item.getId());
         BigDecimal currentPrice = latestBid != null ? latestBid.getAmmount() : item.getBasePrice();
         // revisar que el cliente no sea el mismo que la ultima persona que haya pujado para este producto.
-        if (latestBid.getAssistant().getAssistantId() == assistant.getAssistantId()) {
+        if (latestBid != null && latestBid.getAssistant().getAssistantId() == assistant.getAssistantId()) {
             throw new Exception("Por favor, espere a que alguien mas oferte para realizar una nueva oferta");
         }
         
