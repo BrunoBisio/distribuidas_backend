@@ -24,7 +24,7 @@ public class AuctionRegistryController {
     @GetMapping("/item/bought")
     public List<AuctionRegistryDto> getBoughtProducts() { return service.getBoughtProducts(Context.getPrincipalId()); }
 
-    @PostMapping("/item/{itemId}/pay/{paymentId}")
+    @PostMapping("/item/{itemId}/pay")
     public boolean createAuction(@PathVariable int itemId, @RequestBody PaymentMethodDto payment) throws Exception {
         return service.create(itemId, payment, Context.getPrincipalId());
     }
