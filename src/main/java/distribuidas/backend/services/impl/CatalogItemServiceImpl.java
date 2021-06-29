@@ -67,12 +67,13 @@ public class CatalogItemServiceImpl implements ICatalogItemService {
             }
             
             item.getProduct().setPrice(latestBid.getAmmount());
-            item.getProduct().setPhotos(photoRepository.findByProductId(item.getProduct().getId()));
+            item.getProduct().setPhotos(photoRepository.findByProductId(item.getProduct().getId()));    
             dto = ProductMapper.toDto(item.getProduct());
             dto.setTimeBeforeClose(MAX_TIME - idleTime);
             dto.setLatestBid(BidMapper.toDto(latestBid));
         } else {
             item.getProduct().setPrice(item.getBasePrice());
+            item.getProduct().setPhotos(photoRepository.findByProductId(item.getProduct().getId()));
             dto = ProductMapper.toDto(item.getProduct());
         }
 
