@@ -17,7 +17,7 @@ public class CatalogItemController {
     private ICatalogItemService service;
     
     @GetMapping("/auction/{id}/item")
-    public ProductDto getByAuctionId(@PathVariable int id) {
+    public ProductDto getByAuctionId(@PathVariable int id) throws Exception {
         return service.getByAuctionId(id);
     }
 

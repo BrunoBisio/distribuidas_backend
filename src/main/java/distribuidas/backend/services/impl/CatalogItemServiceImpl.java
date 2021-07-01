@@ -32,7 +32,7 @@ public class CatalogItemServiceImpl implements ICatalogItemService {
     private IAuctionService auctionService;
 
     @Override
-    public ProductDto getByAuctionId(int auctionId) {
+    public ProductDto getByAuctionId(int auctionId) throws Exception {
         /*
         - Tiene un endpoint que devuelve el itemCatalogo activo
         - Valida hace cuanto se realizo la ultima puja para el ítem
@@ -74,7 +74,7 @@ public class CatalogItemServiceImpl implements ICatalogItemService {
                 item = catalogItemRepository.findFirstByCatalogAuctionIdAndAuctionedOrderByIdAsc(auctionId, Admited.no);
                 if (item == null) {
                     isAuctionOpen = auctionService.closeAuction(auctionId);
-                    return null;
+                    throw new Exception("No quedan mas items en la subasta");
                 }
             }
         }
