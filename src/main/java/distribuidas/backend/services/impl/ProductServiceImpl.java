@@ -131,7 +131,7 @@ public class ProductServiceImpl implements IProductService {
                 return false;
             }
         }
-        
+        photoRepository.deleteByProductId(prod.getId());
         prodRepository.delete(prod);
         return true;
     }
