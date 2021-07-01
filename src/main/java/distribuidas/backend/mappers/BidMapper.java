@@ -13,7 +13,7 @@ public class BidMapper {
         BidDto dto = new BidDto();
         dto.setAmmount(bid.getAmmount());
         dto.setCreated(bid.getCreated());
-        dto.setId(bid.getAssistant().getAssistantId());
+        dto.setAssistantId(bid.getAssistant().getAssistantId());
         return dto;
     }
 
