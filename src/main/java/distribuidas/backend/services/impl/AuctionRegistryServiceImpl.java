@@ -48,7 +48,6 @@ public class AuctionRegistryServiceImpl implements IAuctionRegistryService {
                 return false;
             }
             
-            
             AuctionRegistry ar = new AuctionRegistry();
             ar.setAmmount(bid.getAmmount());
             ar.setClient(bid.getAssistant().getClient());
