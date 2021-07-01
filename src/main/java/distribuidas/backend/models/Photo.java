@@ -35,4 +35,9 @@ public class Photo {
     private Product product;
     @Column(name = "foto")
     private String photo;
+
+    public Photo(Product product, String photo) {
+        this.product = product;
+        this.photo = photo;
+    }
 }
