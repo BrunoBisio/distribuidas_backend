@@ -40,8 +40,8 @@ public class AuctionRegistryServiceImpl implements IAuctionRegistryService {
     @Override
     public boolean create(int itemId, PaymentMethodDto payment, int clientId) throws Exception {
         try {
-            CatalogItem item = catalogItemRepository.findById(itemId).get();
-            Bid bid = bidRepository.findFirstByItemIdOrderByIdDesc(itemId);
+            CatalogItem item = catalogItemRepository.findByProductId(itemId);
+            Bid bid = bidRepository.findFirstByItemProductIdOrderByIdDesc(itemId);
             if (bid == null || bid.getAssistant().getClient().getId() != clientId) {
                 return false;
             }
