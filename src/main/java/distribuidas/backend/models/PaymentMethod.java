@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
+
 import distribuidas.backend.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,6 +56,7 @@ public class PaymentMethod {
     private String expirationDate;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente")
+    @LazyToOne(LazyToOneOption.NO_PROXY)
     private Client client;
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")

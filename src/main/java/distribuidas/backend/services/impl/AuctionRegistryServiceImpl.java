@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 
 import distribuidas.backend.dtos.AuctionRegistryDto;
 import distribuidas.backend.dtos.PaymentMethodDto;
+import distribuidas.backend.enums.Status;
 import distribuidas.backend.mappers.AuctionRegistryMapper;
 import distribuidas.backend.models.AuctionRegistry;
 import distribuidas.backend.models.Bid;
 import distribuidas.backend.models.CatalogItem;
+import distribuidas.backend.models.PaymentMethod;
 import distribuidas.backend.repositories.AuctionRegistryRepository;
 import distribuidas.backend.repositories.BidRepository;
 import distribuidas.backend.repositories.CatalogItemRepository;
@@ -57,7 +59,15 @@ public class AuctionRegistryServiceImpl implements IAuctionRegistryService {
         if (!payment.getCardNumber().isEmpty()) {
             ar.setPaymentMethod(paymentMethodRepository.findByCardNumber(payment.getCardNumber()));
         } else {
-            ar.setPaymentMethod(paymentMethodRepository.findByAccountNumber(payment.getAccountNumber()));
+            try {
+                ar.setPaymentMethod(paymentMethodRepository.findByAccountNumber(payment.getAccountNumber()));
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                PaymentMethod paymentMethod = paymentMethodRepository.findByClientIdAndStatus(clientId, Status.activo).stream()
+                    .filter((p) -> { return p.getAccountNumber() == payment.getAccountNumber(); })
+                    .findFirst().get();
+                ar.setPaymentMethod(paymentMethod);
+            }
         }
         
         arRepository.save(ar);

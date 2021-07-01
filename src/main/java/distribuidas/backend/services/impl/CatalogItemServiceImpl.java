@@ -74,9 +74,7 @@ public class CatalogItemServiceImpl implements ICatalogItemService {
                 item = catalogItemRepository.findFirstByCatalogAuctionIdAndAuctionedOrderByIdAsc(auctionId, Admited.no);
                 if (item == null) {
                     isAuctionOpen = auctionService.closeAuction(auctionId);
-                    dto = new ProductDto();
-                    dto.setAuctionOpen(isAuctionOpen);
-                    return dto;
+                    return null;
                 }
             }
         }
