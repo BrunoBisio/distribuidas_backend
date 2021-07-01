@@ -23,7 +23,7 @@ import distribuidas.backend.repositories.PaymentMethodRepository;
 import distribuidas.backend.services.IBidService;
 
 @Service
-public class BidService implements IBidService {
+public class BidServiceImpl implements IBidService {
 
     @Autowired
     private AssistantRepository assistantRepository;

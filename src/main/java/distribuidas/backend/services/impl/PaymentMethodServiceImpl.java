@@ -16,7 +16,7 @@ import distribuidas.backend.repositories.PaymentMethodRepository;
 import distribuidas.backend.services.IPaymentMethodService;
 
 @Service
-public class PaymentMethodService implements IPaymentMethodService {
+public class PaymentMethodServiceImpl implements IPaymentMethodService {
 
     @Autowired
     private PaymentMethodRepository paymentMethodRepo;

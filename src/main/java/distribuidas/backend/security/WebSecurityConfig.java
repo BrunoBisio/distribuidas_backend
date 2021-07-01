@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import distribuidas.backend.services.impl.ClientService;
+import distribuidas.backend.services.impl.ClientServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -26,7 +26,7 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
-    private ClientService jwtUserDetailsService;
+    private ClientServiceImpl jwtUserDetailsService;
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
