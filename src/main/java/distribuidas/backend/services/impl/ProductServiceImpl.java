@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -123,6 +125,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    @Transactional
     public boolean deleteProduct(int clientId, int id) {
         Product prod = prodRepository.findByIdAndOwnerId(id, clientId);
         // si el producto ya a sido se debe validar que no se haya agregado a alguna subasta para que pueda ser borrado.
