@@ -3,6 +3,7 @@ package distribuidas.backend.mappers;
 import java.util.Date;
 
 import distribuidas.backend.dtos.BidDto;
+import distribuidas.backend.enums.Admited;
 import distribuidas.backend.models.Assistant;
 import distribuidas.backend.models.Bid;
 import distribuidas.backend.models.CatalogItem;
@@ -23,6 +24,7 @@ public class BidMapper {
         bid.setCreated(new Date());
         bid.setItem(item);
         bid.setAssistant(assistant);
+        bid.setWinner(Admited.no);
         return bid;
     }
 }

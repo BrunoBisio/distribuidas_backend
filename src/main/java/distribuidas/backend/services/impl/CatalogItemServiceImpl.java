@@ -58,36 +58,35 @@ public class CatalogItemServiceImpl implements ICatalogItemService {
         */
         ProductDto dto = null;
         CatalogItem item = catalogItemRepository.findFirstByCatalogAuctionIdAndAuctionedOrderByIdAsc(auctionId, Admited.no);
+        if (item == null) {
+            return null;
+        }
         Bid latestBid = bidRepository.findFirstByItemIdOrderByIdDesc(item.getId());
         boolean isAuctionOpen = true;
+        long idleTime = 0;
         if (latestBid != null) {
-            long idleTime = new Date().getTime() - latestBid.getCreated().getTime();
+            idleTime = new Date().getTime() - latestBid.getCreated().getTime();
             if (idleTime >= MAX_TIME) {
                 item.setAuctioned(Admited.si);
                 latestBid.setWinner(Admited.si);
                 catalogItemRepository.save(item);
                 bidRepository.save(latestBid);
                 item = catalogItemRepository.findFirstByCatalogAuctionIdAndAuctionedOrderByIdAsc(auctionId, Admited.no);
-                // si no quedan mas items se debe cerrar la subasta
                 if (item == null) {
-                    if (auctionService.closeAuction(auctionId)) {
-                        isAuctionOpen = false;
-                    }
+                    isAuctionOpen = auctionService.closeAuction(auctionId);
+                    dto = new ProductDto();
+                    dto.setAuctionOpen(isAuctionOpen);
+                    return dto;
                 }
             }
-            
-            item.getProduct().setPrice(item.getBasePrice());
-            item.getProduct().setPhotos(photoRepository.findByProductId(item.getProduct().getId()));
-            dto = ProductMapper.toDto(item.getProduct());
-            dto.setTimeBeforeClose(MAX_TIME - idleTime);
-            dto.setLatestBid(BidMapper.toDto(latestBid));
-            dto.setAuctionOpen(isAuctionOpen);
-        } else {
-            item.getProduct().setPrice(item.getBasePrice());
-            item.getProduct().setPhotos(photoRepository.findByProductId(item.getProduct().getId()));
-            dto = ProductMapper.toDto(item.getProduct());
-            dto.setAuctionOpen(isAuctionOpen);
         }
+
+        item.getProduct().setPrice(item.getBasePrice());
+        item.getProduct().setPhotos(photoRepository.findByProductId(item.getProduct().getId()));
+        dto = ProductMapper.toDto(item.getProduct());
+        dto.setTimeBeforeClose(MAX_TIME - idleTime);
+        dto.setLatestBid(latestBid != null ? BidMapper.toDto(latestBid) : null);
+        dto.setAuctionOpen(isAuctionOpen);
 
         return dto;
     }
