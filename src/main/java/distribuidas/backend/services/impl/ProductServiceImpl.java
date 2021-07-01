@@ -71,13 +71,16 @@ public class ProductServiceImpl implements IProductService {
         Stream<ProductDto> itemsWithoutAuction = prodRepository.findByOwnerIdAndApproved(clientId, Admited.si).stream()
             .filter((p) -> {
                 return !ciRepository.existsByProductId(p.getId());
-            }).map(ProductMapper::toDeletableDto);
+            })
+            .map(this::getProductWithPhoto)
+            .map(ProductMapper::toDeletableDto);
         return Stream.concat(itemsWithAuction, itemsWithoutAuction).collect(Collectors.toList());
     }
 
     @Override
     public List<ProductDto> getUnapprovedProducts(int clientId) {
         return prodRepository.findByOwnerIdAndApproved(clientId, Admited.no).stream()
+            .map(this::getProductWithPhoto)
             .map(ProductMapper::toDto).collect(Collectors.toList());
     }
 
@@ -145,6 +148,11 @@ public class ProductServiceImpl implements IProductService {
         ci.getProduct().setPrice(ci.getBasePrice());
         ci.getProduct().setPhotos(photoRepository.findByProductId(ci.getProduct().getId()));
         return ci.getProduct();
+    }
+
+    public Product getProductWithPhoto(Product p) {
+        p.setPhotos(photoRepository.findByProductId(p.getId()));
+        return p;
     }
 
 }
