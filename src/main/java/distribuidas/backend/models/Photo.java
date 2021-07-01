@@ -10,11 +10,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "fotos")
-@Getter @Setter
+@Getter @Setter @NoArgsConstructor
 public class Photo {
     /*
         create table fotos(

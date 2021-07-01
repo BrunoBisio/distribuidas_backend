@@ -52,7 +52,7 @@ public class ProductServiceImpl implements IProductService {
         List<AuctionRegistry> ars = arRepository.findByOwnerIdAndProductIn(clientId, 
             cis.stream().map(CatalogItem::getProduct).collect(Collectors.toList()));
         return cis.stream().map((ci) -> {
-            return ProductMapper.toSoldDto(getProductWithPrice(ci),
+            return ProductMapper.toSoldDto(getProductWithPriceAndPhoto(ci),
                 ars.stream().filter((ar) -> { return ar.getProduct().getId() == ci.getProduct().getId(); }).findFirst().get() );
         }).collect(Collectors.toList());
     }
@@ -60,13 +60,14 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public List<ProductDto> getActiveAuctionProducts(int clientId) {
         return ciRepository.findByProductOwnerIdAndCatalogAuctionState(clientId, State.abierta).stream()
-            .map(ProductServiceImpl::getProductWithPrice).map(ProductMapper::toDto).collect(Collectors.toList());
+            .map(this::getProductWithPriceAndPhoto)
+            .map(ProductMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
     public List<ProductDto> getPendingAuctionProducts(int clientId) {
         Stream<ProductDto> itemsWithAuction = ciRepository.findPendingAuctionProducts(clientId).stream()
-            .map(ProductServiceImpl::getProductWithPrice).map(ProductMapper::toPendingDto);
+            .map(this::getProductWithPriceAndPhoto).map(ProductMapper::toPendingDto);
         Stream<ProductDto> itemsWithoutAuction = prodRepository.findByOwnerIdAndApproved(clientId, Admited.si).stream()
             .filter((p) -> {
                 return !ciRepository.existsByProductId(p.getId());
@@ -140,11 +141,10 @@ public class ProductServiceImpl implements IProductService {
         return null;
     }
 
-    public static Product getProductWithPrice(CatalogItem ci) {
+    public Product getProductWithPriceAndPhoto(CatalogItem ci) {
         ci.getProduct().setPrice(ci.getBasePrice());
+        ci.getProduct().setPhotos(photoRepository.findByProductId(ci.getProduct().getId()));
         return ci.getProduct();
     }
 
-    
-    
 }
