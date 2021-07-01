@@ -12,4 +12,5 @@ import lombok.Setter;
 public class BidDto {
     private BigDecimal ammount;
     private Date created;
+    private int assistantId;
 }

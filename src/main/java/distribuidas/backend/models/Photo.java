@@ -10,11 +10,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "fotos")
-@Getter @Setter
+@Getter @Setter @NoArgsConstructor
 public class Photo {
     /*
         create table fotos(
@@ -35,4 +36,9 @@ public class Photo {
     private Product product;
     @Column(name = "foto")
     private String photo;
+
+    public Photo(Product product, String photo) {
+        this.product = product;
+        this.photo = photo;
+    }
 }

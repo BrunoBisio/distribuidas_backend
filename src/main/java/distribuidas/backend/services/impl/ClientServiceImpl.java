@@ -24,7 +24,7 @@ import distribuidas.backend.services.IClientService;
 import java.util.ArrayList;
 
 @Service
-public class ClientService implements IClientService, UserDetailsService {
+public class ClientServiceImpl implements IClientService, UserDetailsService {
 
     @Autowired
     private ClientRepository clientRepo;
@@ -88,7 +88,9 @@ public class ClientService implements IClientService, UserDetailsService {
         User user = client.getUser();
         user.setAddress(userDto.getAddress());
         user.setPhoneNumber(userDto.getPhoneNumber());
-        user.setPassword(bcryptEncoder.encode(userDto.getPassword()));
+        if (userDto.getPassword() != "") {
+            user.setPassword(bcryptEncoder.encode(userDto.getPassword()));
+        }
         client = clientRepo.save(client);
         return ClientMapper.toDto(client);
     }

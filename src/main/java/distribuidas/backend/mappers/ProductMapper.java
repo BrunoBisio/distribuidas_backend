@@ -9,8 +9,8 @@ import distribuidas.backend.models.Product;
 
 public class ProductMapper {
 
-    public static ProductDto toDto(Product product){
-        ProductDto  dto = new ProductDto();
+    public static ProductDto toDto(Product product) {
+        ProductDto dto = new ProductDto();
         dto.setId(product.getId());
         dto.setAvailable(product.getAvailable());
         dto.setName(product.getName());
@@ -22,11 +22,24 @@ public class ProductMapper {
         return dto;
     }
 
+    public static ProductDto toPendingDto(Product product) {
+        ProductDto dto = toDto(product);
+        dto.setProdState("pending");
+        return dto;
+    }
+
+    public static ProductDto toDeletableDto(Product product) {
+        ProductDto dto = toDto(product);
+        dto.setProdState("pending and deletable");
+        return dto;
+    }
+
     public static ProductDto toSoldDto(Product product, AuctionRegistry ar) {
         ProductDto dto = toDto(product);
         dto.setSoldPrice(ar.getAmmount());
         dto.setCommisionValue(ar.getCommission());
         return dto;
     }
+    
 }
 

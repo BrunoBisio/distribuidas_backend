@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import distribuidas.backend.services.impl.ClientService;
+import distribuidas.backend.services.impl.ClientServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -26,7 +26,7 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
-    private ClientService jwtUserDetailsService;
+    private ClientServiceImpl jwtUserDetailsService;
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
@@ -60,6 +60,7 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 // /auction /auction/soon /auction/id
                         antMatchers("/auction/user").authenticated().
                         antMatchers("/auction", "/auction/soon", "/auction/{\\d+}").permitAll().
+                        antMatchers("/auction/{\\d+}/item").permitAll().
                 anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to
                 // store user's state.

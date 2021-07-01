@@ -14,16 +14,17 @@ public class BidMapper {
         BidDto dto = new BidDto();
         dto.setAmmount(bid.getAmmount());
         dto.setCreated(bid.getCreated());
+        dto.setAssistantId(bid.getAssistant().getAssistantId());
         return dto;
     }
 
-    public static Bid fromDto(BidDto dto, CatalogItem item, Assistant assistant, Admited admited) {
+    public static Bid fromDto(BidDto dto, CatalogItem item, Assistant assistant) {
         Bid bid = new Bid();
         bid.setAmmount(dto.getAmmount());
         bid.setCreated(new Date());
         bid.setItem(item);
         bid.setAssistant(assistant);
-        bid.setWinner(admited);
+        bid.setWinner(Admited.no);
         return bid;
     }
 }

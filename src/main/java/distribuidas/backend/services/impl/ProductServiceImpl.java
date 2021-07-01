@@ -1,8 +1,12 @@
 package distribuidas.backend.services.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +19,14 @@ import distribuidas.backend.models.AuctionRegistry;
 import distribuidas.backend.models.CatalogItem;
 import distribuidas.backend.models.Client;
 import distribuidas.backend.models.Owner;
+import distribuidas.backend.models.Photo;
 import distribuidas.backend.models.Product;
 import distribuidas.backend.repositories.AuctionRegistryRepository;
 import distribuidas.backend.repositories.CatalogItemRepository;
 import distribuidas.backend.repositories.ClientRepository;
 import distribuidas.backend.repositories.EmployeeRepository;
 import distribuidas.backend.repositories.OwnerRepository;
+import distribuidas.backend.repositories.PhotoRepository;
 import distribuidas.backend.repositories.ProductRepository;
 import distribuidas.backend.services.IProductService;
 
@@ -39,6 +45,8 @@ public class ProductServiceImpl implements IProductService {
     private ClientRepository clientRepository;
     @Autowired
     private AuctionRegistryRepository arRepository;
+    @Autowired
+    private PhotoRepository photoRepository;
 
     @Override
     public List<ProductDto> getSoldProducts(int clientId) {
@@ -46,7 +54,7 @@ public class ProductServiceImpl implements IProductService {
         List<AuctionRegistry> ars = arRepository.findByOwnerIdAndProductIn(clientId, 
             cis.stream().map(CatalogItem::getProduct).collect(Collectors.toList()));
         return cis.stream().map((ci) -> {
-            return ProductMapper.toSoldDto(getProductWithPrice(ci),
+            return ProductMapper.toSoldDto(getProductWithPriceAndPhoto(ci),
                 ars.stream().filter((ar) -> { return ar.getProduct().getId() == ci.getProduct().getId(); }).findFirst().get() );
         }).collect(Collectors.toList());
     }
@@ -54,41 +62,54 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public List<ProductDto> getActiveAuctionProducts(int clientId) {
         return ciRepository.findByProductOwnerIdAndCatalogAuctionState(clientId, State.abierta).stream()
-            .map(ProductServiceImpl::getProductWithPrice).map(ProductMapper::toDto).collect(Collectors.toList());
+            .map(this::getProductWithPriceAndPhoto)
+            .map(ProductMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
     public List<ProductDto> getPendingAuctionProducts(int clientId) {
-        return ciRepository.findPendingAuctionProducts(clientId).stream()
-            .map(ProductServiceImpl::getProductWithPrice).map(ProductMapper::toDto)
-            .collect(Collectors.toList());
+        Stream<ProductDto> itemsWithAuction = ciRepository.findPendingAuctionProducts(clientId).stream()
+            .map(this::getProductWithPriceAndPhoto).map(ProductMapper::toPendingDto);
+        Stream<ProductDto> itemsWithoutAuction = prodRepository.findByOwnerIdAndApproved(clientId, Admited.si).stream()
+            .filter((p) -> {
+                return !ciRepository.existsByProductId(p.getId());
+            })
+            .map(this::getProductWithPhoto)
+            .map(ProductMapper::toDeletableDto);
+        return Stream.concat(itemsWithAuction, itemsWithoutAuction).collect(Collectors.toList());
     }
 
     @Override
     public List<ProductDto> getUnapprovedProducts(int clientId) {
         return prodRepository.findByOwnerIdAndApproved(clientId, Admited.no).stream()
+            .map(this::getProductWithPhoto)
             .map(ProductMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
     public ProductDto createProduct(int clientId, ProductDto product) {
-        Product p = new Product();
-        p.setCreated(new Date());
-        p.setAvailable(Admited.si);
-        p.setFullDescription(product.getFullDescription());
-        p.setCatalogDescription(product.getDescription());
-        p.setEmployee(employeeRepository.findById(3).get());
+        Product newProduct = new Product();
+        newProduct.setCreated(new Date());
+        newProduct.setAvailable(Admited.si);
+        newProduct.setFullDescription(product.getFullDescription());
+        newProduct.setCatalogDescription(product.getDescription());
+        newProduct.setEmployee(employeeRepository.findById(3).get());
         if (ownerRepository.existsById(clientId)) {
-            p.setOwner(ownerRepository.findById(clientId).get());
+            newProduct.setOwner(ownerRepository.findById(clientId).get());
         } else {
-            p.setOwner(createOwner(clientId));
+            newProduct.setOwner(createOwner(clientId));
         }
-        p.setName(product.getName());
-        p.setDescription(product.getDescription());
-        p.setCurrency("ARS");
-        p.setApproved(Admited.no);
-        p = prodRepository.save(p);
-        return ProductMapper.toDto(p);
+        newProduct.setName(product.getName());
+        newProduct.setDescription(product.getDescription());
+        newProduct.setCurrency("ARS");
+        newProduct.setApproved(Admited.no);
+        newProduct = prodRepository.save(newProduct);
+        List<Photo> photos = new ArrayList<>();
+        for (String p : product.getPhotos()) {
+            photos.add(new Photo(newProduct, p));
+        }
+        photoRepository.saveAll(photos);
+        return ProductMapper.toDto(newProduct);
     }
 
     private Owner createOwner(int clientId) {
@@ -104,19 +125,39 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    @Transactional
     public boolean deleteProduct(int clientId, int id) {
         Product prod = prodRepository.findByIdAndOwnerId(id, clientId);
-        // si el producto ya a sido aprovado no puede ser borrado.
-        if (prod.getApproved().ordinal() == Admited.si.ordinal())
-            return false;
-        
+        // si el producto ya a sido se debe validar que no se haya agregado a alguna subasta para que pueda ser borrado.
+        if (prod.getApproved().ordinal() == Admited.si.ordinal()) {
+            if (ciRepository.existsByProductId(prod.getId())) {
+                return false;
+            }
+        }
+        photoRepository.deleteByProductId(prod.getId());
         prodRepository.delete(prod);
         return true;
     }
 
-    private static Product getProductWithPrice(CatalogItem ci) {
+    @Override
+    public ProductDto getProductById(int id) {
+        Product prod = prodRepository.findById(id).get();
+        if (prod != null) {
+            prod = getProductWithPhoto(prod);
+            return ProductMapper.toDto(prod);
+        }
+        return null;
+    }
+
+    public Product getProductWithPriceAndPhoto(CatalogItem ci) {
         ci.getProduct().setPrice(ci.getBasePrice());
+        ci.getProduct().setPhotos(photoRepository.findByProductId(ci.getProduct().getId()));
         return ci.getProduct();
     }
-    
+
+    public Product getProductWithPhoto(Product p) {
+        p.setPhotos(photoRepository.findByProductId(p.getId()));
+        return p;
+    }
+
 }

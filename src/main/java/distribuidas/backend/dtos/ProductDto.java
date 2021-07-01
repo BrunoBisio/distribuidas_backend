@@ -20,4 +20,8 @@ public class ProductDto {
     private String fullDescription;
     private BigDecimal commisionValue;
     private BigDecimal soldPrice;
+    private String prodState;
+    private long timeBeforeClose;
+    private BidDto latestBid;
+    private boolean isAuctionOpen;
 }

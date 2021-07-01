@@ -6,6 +6,7 @@ import distribuidas.backend.models.PaymentMethod;
 public class PaymentMethodMapper {
     public static PaymentMethodDto toDto(PaymentMethod pm) {
         PaymentMethodDto dto = new PaymentMethodDto();
+        dto.setId(pm.getId());
         dto.setAccountNumber(pm.getAccountNumber());
         dto.setCardNumber(pm.getCardNumber());
         dto.setCurrency(pm.getCurrency());

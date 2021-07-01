@@ -13,4 +13,5 @@ public interface BidRepository extends JpaRepository<Bid, Integer>{
     long countByAssistantClientId(int clientId);
     long countByAssistantClientIdAndWinner(int clientId, Admited winner);
     List<Bid> findByAssistantClientId(int clientId);
+    Bid findFirstByItemProductIdOrderByIdDesc(int productId);
 }

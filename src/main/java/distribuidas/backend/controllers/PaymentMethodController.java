@@ -32,7 +32,12 @@ public class PaymentMethodController {
     }
 
     @DeleteMapping("/{id}")
-    public void index(@PathVariable int id) {
-        service.deletePaymentMethod(id);
+    public boolean index(@PathVariable int id) throws Exception {
+        try {
+            service.deletePaymentMethod(id);
+            return true;
+        } catch(Exception ex) {
+            throw new Exception(ex.getMessage());
+        }
     }
 }
