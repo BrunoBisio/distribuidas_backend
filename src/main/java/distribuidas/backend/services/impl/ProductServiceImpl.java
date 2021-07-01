@@ -139,8 +139,10 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public ProductDto getProductById(int id) {
         Product prod = prodRepository.findById(id).get();
-        if (prod != null)
+        if (prod != null) {
+            prod = getProductWithPhoto(prod);
             return ProductMapper.toDto(prod);
+        }
         return null;
     }
 
